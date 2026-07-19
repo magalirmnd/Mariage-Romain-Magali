@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Romain & Magali | Notre faire-part</title>
+
+    <meta name="description" content="Faire-part de mariage de Romain & Magali">
+
+    <!-- Google Fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <main class="hero">
+
+        <div class="logo">
+
+            RM
+
+        </div>
+
+        <h1>
+
+            <span class="firstname">Romain</span>
+
+            <span class="ampersand">&</span>
+
+            <span class="firstname">Magali</span>
+
+        </h1>
+
+       <p class="invitation fr">
+
+    Vous êtes invités à célébrer notre mariage
+
+</p>
+
+        <p class="invitation-es">
+
+            <em>Están invitados a celebrar nuestra boda</em>
+
+        </p>
+
+        <div class="date">
+
+    <p class="fr">
+
+        14 août 2027
+
+    </p>
+
+    <p class="es">
+
+        <em>14 de agosto de 2027</em>
+
+    </p>
+
+</div>
+
+        <button id="openInvitation">
+
+    <span class="fr">
+
+        Ouvrir notre faire-part
+
+    </span>
+
+    <span class="es">
+
+        <em>Abrir nuestra invitación</em>
+
+    </span>
+
+</button>
+
+    </main>
+
+    <!-- =====================================================
+     FEUX D'ARTIFICE
+===================================================== -->
+
+<section id="fireworksScene">
+
+    <canvas id="fireworksCanvas"></canvas>
+
+</section>
+
+<section id="doorsScene">
+
+    <div id="leftDoor" class="door"></div>
+
+    <div id="rightDoor" class="door"></div>
+
+</section>
+
+<section id="storyScene" class="fade-section">
+
+    <div class="storyContainer">
+
+        <p class="storyIntro fr">
+
+    Notre histoire
+
+</p>
+
+<p class="es">
+
+    <em>Nuestra historia</em>
+
+</p>
+
+        <h2 class="fr">
+
+    Chaque belle histoire commence par une rencontre.
+
+</h2>
+
+<h3 class="es">
+
+    <em>Toda gran historia comienza con un encuentro.</em>
+
+</h3>
+        
+<div class="storyImage">
+
+    <img src="assets/images/couple.jpg"
+         alt="Romain et Magali">
+
+</div>
+        <div class="storyText">
+
+            <p class="text-fr">
+
+    Ici, nous raconterons notre histoire.
+    Quelques lignes suffiront pour expliquer
+    comment tout a commencé.
+
+</p>
+
+<p class="text-es">
+
+    <em>
+
+        Aquí contaremos nuestra historia.
+        Bastarán unas líneas para explicar
+        cómo comenzó todo.
+
+    </em>
+
+</p>
+
+            <p class="text-fr">
+
+    Nous remplacerons ce texte par votre
+    véritable histoire lorsque nous y arriverons.
+
+</p>
+
+<p class="text-es">
+
+    <em>
+
+        Sustituiremos este texto por vuestra
+        verdadera historia cuando llegue el momento.
+
+    </em>
+
+</p>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="informationScene" class="fade-section">
+    
+    <div class="informationContainer">
+
+        <p class="sectionTitle fr">
+
+    Le grand jour
+
+</p>
+
+<p class="es">
+
+    <em>El gran día</em>
+
+</p>
+
+        <h2 class="fr">
+
+    Les informations essentielles
+
+</h2>
+
+<h3 class="es">
+
+    <em>La información esencial</em>
+
+</h3>
+
+<div class="informationGrid">
+
+    <div class="informationCard">
+
+        <h3 class="cardTitle">
+
+            <i class="fa-regular fa-calendar"></i>
+
+            Date
+
+        </h3>
+
+        <p class="cardTitleEs">
+
+            <em>Fecha</em>
+
+        </p>
+
+        <p class="cardText">
+
+            14 août 2027
+
+        </p>
+
+        <p class="cardTextEs">
+
+            <em>14 de agosto de 2027</em>
+
+        </p>
+
+    </div>
+
+    <div class="informationCard">
+
+        <h3 class="cardTitle">
+
+            <i class="fa-solid fa-church"></i>
+
+            Cérémonie
+
+        </h3>
+
+        <p class="cardTitleEs">
+
+            <em>Ceremonia</em>
+
+        </p>
+
+        <p class="cardText">
+
+            À compléter
+
+        </p>
+
+        <p class="cardTextEs">
+
+            <em>Por completar</em>
+
+        </p>
+
+    </div>
+
+    <div class="informationCard">
+
+        <h3 class="cardTitle">
+
+            <i class="fa-solid fa-champagne-glasses"></i>
+
+            Réception
+
+        </h3>
+
+        <p class="cardTitleEs">
+
+            <em>Recepción</em>
+
+        </p>
+
+        <p class="cardText">
+
+            À compléter
+
+        </p>
+
+        <p class="cardTextEs">
+
+            <em>Por completar</em>
+
+        </p>
+
+    </div>
+
+    <div class="informationCard">
+
+        <h3 class="cardTitle">
+
+            <i class="fa-solid fa-user-tie"></i>
+
+            Tenue
+
+        </h3>
+
+        <p class="cardTitleEs">
+
+            <em>Código de vestimenta</em>
+
+        </p>
+
+        <p class="cardText">
+
+            Élégante
+
+        </p>
+
+        <p class="cardTextEs">
+
+            <em>Elegante</em>
+
+        </p>
+
+    </div>
+
+</div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="mapScene" class="fade-section">
+
+    <div class="mapContainer">
+
+        <p class="sectionTitle fr">
+            Le lieu
+        </p>
+
+        <p class="es">
+            <em>El lugar</em>
+        </p>
+
+        <h2 class="fr">
+            Où nous retrouver
+        </h2>
+
+        <h3 class="es">
+            <em>Dónde encontrarnos</em>
+        </h3>
+
+        <div class="mapFrame">
+
+            <iframe
+                src="https://www.google.com/maps?q=Château+de+Chambord&output=embed"
+                loading="lazy"
+                allowfullscreen>
+            </iframe>
+
+        </div>
+
+        <p class="mapAddress">
+
+            Château de Chambord<br>
+            Place Saint-Louis<br>
+            41250 Chambord
+
+        </p>
+
+        <a href="https://maps.google.com/?q=Château+de+Chambord"
+   target="_blank"
+   class="mapButton">
+
+    <i class="fa-solid fa-location-dot"></i>
+
+    Ouvrir dans Google Maps
+
+</a>
+
+    </div>
+
+</section>
+
+<section id="timelineScene" class="fade-section">
+
+    <div class="timelineContainer">
+
+        <p class="sectionTitle fr">
+            Le programme
+        </p>
+
+        <p class="es">
+            <em>El programa</em>
+        </p>
+
+        <h2 class="fr">
+            Le déroulement de la journée
+        </h2>
+
+        <h3 class="es">
+            <em>El desarrollo del día</em>
+        </h3>
+
+        <div class="timeline">
+
+            <div class="timelineItem">
+
+                <div class="timelineHour">
+                    15h30
+                </div>
+
+                <div class="timelineContent">
+
+                    <h4>Cérémonie</h4>
+
+                    <p>À compléter</p>
+
+                </div>
+
+            </div>
+
+            <div class="timelineItem">
+
+                <div class="timelineHour">
+                    17h00
+                </div>
+
+                <div class="timelineContent">
+
+                    <h4>Cocktail</h4>
+
+                    <p>À compléter</p>
+
+                </div>
+
+            </div>
+
+            <div class="timelineItem">
+
+                <div class="timelineHour">
+                    19h30
+                </div>
+
+                <div class="timelineContent">
+
+                    <h4>Dîner</h4>
+
+                    <p>À compléter</p>
+
+                </div>
+
+            </div>
+
+            <div class="timelineItem">
+
+                <div class="timelineHour">
+                    22h30
+                </div>
+
+                <div class="timelineContent">
+
+                    <h4>Ouverture du bal</h4>
+
+                    <p>À compléter</p>
+
+                </div>
+
+            </div>
+
+            <div class="timelineItem">
+
+                <div class="timelineHour">
+                    23h30
+                </div>
+
+                <div class="timelineContent">
+
+                    <h4>Soirée dansante</h4>
+
+                    <p>Jusqu'au bout de la nuit !</p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section id="rsvpScene" class="fade-section">
+
+    <div class="rsvpContainer">
+
+        <p class="sectionTitle">
+
+            Confirmation
+
+        </p>
+
+        <h2>
+
+            Merci de nous confirmer votre présence
+
+        </h2>
+
+        <p class="sectionSubtitle">
+
+            <em>Gracias por confirmar su asistencia.</em>
+
+        </p>
+
+        <form
+    id="rsvpForm"
+    action="https://formsubmit.co/raymond.lili@live.fr"
+    method="POST">
+<input
+    type="hidden"
+    name="_subject"
+    value="Nouvelle réponse au faire-part">
+
+<input
+    type="hidden"
+    name="_captcha"
+    value="false">
+
+<input
+    type="hidden"
+    name="_template"
+    value="table">
+
+    <input
+    type="hidden"
+    name="_next"
+    value="merci.html">
+
+           <input
+    type="text"
+    name="Nom"
+    placeholder="Nom et prénom"
+    required
+>
+            
+
+           <input
+    type="email"
+    name="email"
+    placeholder="Adresse e-mail"
+    required
+
+            >
+
+           <select
+    name="Présence"
+    required>
+
+                <option value="">
+                    Serez-vous présent ?
+                </option>
+
+                <option>
+                    Oui, avec plaisir !
+                </option>
+
+                <option>
+                    Non, malheureusement.
+                </option>
+
+            </select>
+            
+            <input
+    type="number"
+    name="Nombre de personnes"
+    min="1"
+    max="10"
+    placeholder="Nombre de personnes">
+
+    <input
+    type="text"
+    name="Allergies"
+    placeholder="Allergies ou régime alimentaire (facultatif)">
+    
+            <textarea
+    name="Message"
+    rows="5"
+    placeholder="Un petit mot pour les mariés..."
+></textarea>
+
+            <button type="submit">
+
+                Envoyer
+
+            </button>
+
+        </form>
+
+    </div>
+
+</section>
+
+<footer>
+
+    <p>
+
+        Nous avons hâte de partager cette journée avec vous.
+
+    </p>
+
+    <p class="footerEs">
+
+        <em>Estamos deseando compartir este día con ustedes.</em>
+
+    </p>
+
+    <div class="footerNames">
+
+        Romain & Magali
+
+    </div>
+
+</footer>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
