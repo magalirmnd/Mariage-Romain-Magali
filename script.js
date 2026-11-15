@@ -26,6 +26,13 @@ function initScrollAnimations() {
 
     const sections = document.querySelectorAll(".fade-section");
 
+    // La première section apparaît immédiatement
+if (sections.length > 0) {
+
+    sections[0].classList.add("visible");
+
+}
+
     const observer = new IntersectionObserver((entries) => {
 
         entries.forEach(entry => {
@@ -40,7 +47,7 @@ function initScrollAnimations() {
 
     }, {
 
-        threshold: 0.20
+        threshold: 0.01
 
     });
 
@@ -49,6 +56,63 @@ function initScrollAnimations() {
         observer.observe(section);
 
     });
+
+    // =====================================================
+// COMPTE À REBOURS
+// =====================================================
+
+const weddingDate = new Date("November 13, 2027 15:00:00").getTime();
+
+function updateCountdown() {
+
+    const now = new Date().getTime();
+
+    const distance = weddingDate - now;
+
+    if (distance <= 0) {
+
+        document.getElementById("countdown").innerHTML = `
+            <h2>Aujourd'hui est le grand jour ! ❤️</h2>
+            <p><em>¡Hoy es el gran día! ❤️</em></p>
+        `;
+
+        return;
+
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+const ids = ["days","hours","minutes","seconds"];
+const values = [days,hours,minutes,seconds];
+
+ids.forEach((id,index)=>{
+
+    const element = document.getElementById(id);
+
+    element.textContent = values[index];
+
+    element.classList.remove("number-update");
+
+    void element.offsetWidth;
+
+    element.classList.add("number-update");
+
+});
+    document.getElementById("hours").textContent = hours;
+    document.getElementById("minutes").textContent = minutes;
+    document.getElementById("seconds").textContent = seconds;
+
+}
+
+updateCountdown();
+
+setInterval(updateCountdown, 1000);
 
 }
 
@@ -134,7 +198,7 @@ document.body.style.overflow = "auto";
 
 }, 50);
 
-            },1400);
+            },900);
 
             setTimeout(() => {
 
@@ -172,27 +236,35 @@ function lancerFusee() {
 
 function explosion(x, y) {
 
-    for (let i = 0; i < 70; i++) {
+   const colors = [
+    "#8E3B46",
+    "#D9A0A7",
+    "#C77B5B",
+    "#344C68",
+    "#4F7C7D",
+    "#91A58A",
+    "#E8D2A6",
+    "#C8A56A",
+    "#F4EBDD"
+];
+
+    for (let i = 0; i < 100; i++) {
 
         const angle = Math.random() * Math.PI * 2;
-
-        const speed = Math.random() * 4 + 1;
+        const speed = Math.random() * 8 + 1;
 
         particles.push({
 
             x,
-
             y,
 
             vx: Math.cos(angle) * speed,
-
             vy: Math.sin(angle) * speed,
 
             life: 100,
-
             size: Math.random() * 3 + 1,
 
-            color: ["#FFFFFF", "#F4E8C1", "#C8A56A"][Math.floor(Math.random() * 3)]
+            color: colors[Math.floor(Math.random() * colors.length)]
 
         });
 
@@ -239,7 +311,7 @@ ctx.beginPath();
 
 ctx.arc(rocket.x, rocket.y, 3.5, 0, Math.PI * 2);
 
-ctx.fillStyle = "#C8A56A";
+ctx.fillStyle = "#dbd8d4";
 
 ctx.fill();
 
@@ -309,3 +381,138 @@ ctx.fill();
 // Apparition des sections au défilement
 // =====================================================
 
+// =====================================================
+// LIGHTBOX
+// =====================================================
+
+const lightbox = document.getElementById("lightbox");
+
+const lightboxImage = document.getElementById("lightboxImage");
+
+const closeLightbox = document.getElementById("closeLightbox");
+
+const prevImage = document.getElementById("prevImage");
+
+const nextImage = document.getElementById("nextImage");
+
+const galleryImages = Array.from(document.querySelectorAll(".galleryGrid img"));
+
+let currentImage = 0;
+
+// Ouvrir la photo
+
+galleryImages.forEach((image,index) => {
+
+    image.addEventListener("click", () => {
+
+        currentImage = index;
+
+lightboxImage.src = galleryImages[currentImage].src;
+
+        lightbox.classList.add("show");
+
+        document.body.style.overflow = "hidden";
+
+    });
+
+});
+
+// Fermer avec la croix
+
+closeLightbox.addEventListener("click", () => {
+
+    lightbox.classList.remove("show");
+
+    document.body.style.overflow = "auto";
+
+});
+
+// Fermer en cliquant sur le fond
+
+lightbox.addEventListener("click", (event) => {
+
+    if(event.target === lightbox){
+
+        lightbox.classList.remove("show");
+
+        document.body.style.overflow = "auto";
+
+    }
+
+});
+
+// Navigation au clavier
+
+document.addEventListener("keydown", (event) => {
+
+    if(!lightbox.classList.contains("show")) return;
+
+    if(event.key === "ArrowRight"){
+
+        currentImage++;
+
+        if(currentImage >= galleryImages.length){
+
+            currentImage = 0;
+
+        }
+
+        lightboxImage.src = galleryImages[currentImage].src;
+
+    }
+
+    if(event.key === "ArrowLeft"){
+
+        currentImage--;
+
+        if(currentImage < 0){
+
+            currentImage = galleryImages.length - 1;
+
+        }
+
+        lightboxImage.src = galleryImages[currentImage].src;
+
+    }
+
+    if(event.key === "Escape"){
+
+        lightbox.classList.remove("show");
+
+        document.body.style.overflow = "auto";
+
+    }
+
+});
+
+// Photo précédente
+
+prevImage.addEventListener("click", () => {
+
+    currentImage--;
+
+    if(currentImage < 0){
+
+        currentImage = galleryImages.length - 1;
+
+    }
+
+    lightboxImage.src = galleryImages[currentImage].src;
+
+});
+
+// Photo suivante
+
+nextImage.addEventListener("click", () => {
+
+    currentImage++;
+
+    if(currentImage >= galleryImages.length){
+
+        currentImage = 0;
+
+    }
+
+    lightboxImage.src = galleryImages[currentImage].src;
+
+});
