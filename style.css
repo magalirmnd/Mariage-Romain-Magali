@@ -7,23 +7,32 @@
 /* =====================================================
    VARIABLES
 ===================================================== */
-body{
 
-    overflow:hidden;
+/* =====================================================
+   IDENTITÉ VISUELLE — ROMAIN & MAGALI
+===================================================== */
+
+:root {
+
+    /* Couleurs principales */
+    --background: #F7F4ED;
+    --text: #3c563e;
+
+    /* Palette mariage */
+    --forest: #263A31;
+    --sage: #899889;
+    --gold: #B99A62;
+    --vert: #899889;
+
+    /* Fonds et surfaces */
+    --white: #FFFFFF;
+    --soft-sage: #E9EDE7;
+
+    /* Typographies */
+    --font-heading: 'Cormorant Garamond', serif;
+    --font-body: 'Montserrat', sans-serif;
 
 }
-:root{
-
-    --background:#798b7f22;
-
-    --text:#2D2D2D;
-
-    --sage:#93A88E;
-
-    --gold:#C8A56A;
-
-}
-
 
 /* =====================================================
    RESET
@@ -46,13 +55,20 @@ html{
 
 }
 
-body{
-    background:var(--background);
-    color:var(--text);
-    font-family:'Montserrat',sans-serif;
-    overflow-x:hidden;
-}
+/* =====================================================
+   BASE DU SITE
+===================================================== */
 
+body {
+    background: var(--background);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+
+    overflow: hidden;
+    overflow-x: hidden;
+}
 
 /* =====================================================
    HERO
@@ -65,39 +81,7 @@ body{
     justify-content:flex-start;
     align-items:center;
     text-align:center;
-    padding:50px 50px 70px;
-}
-
-/* =====================================================
-   LOGO
-===================================================== */
-
-.logo{
-
-    width:120px;
-
-    height:120px;
-
-    border:1px solid var(--gold);
-
-    border-radius:50%;
-
-    display:flex;
-
-    justify-content:center;
-
-    align-items:center;
-
-    margin-bottom:40px;
-
-    font-family:'Cormorant Garamond',serif;
-
-    font-size:48px;
-
-    font-weight:500;
-
-    color:var(--gold);
-
+    padding:60px 60px 60px;
 }
 
 
@@ -115,132 +99,115 @@ h1{
 
 }
 
+/* =====================================================
+   LOGO ET PRÉNOMS
+===================================================== */
 
-.firstname{
+.logo {
+    width:120px;
+    height:120px;
+    border:0.4px solid var(--gold);
+    border-radius:50%;
 
-    font-family:'Cormorant Garamond',serif;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 
-    font-size:45px;
+    margin-bottom:40px;
 
+    font-family:var(--font-heading);
+    font-size:48px;
     font-weight:500;
-
-    line-height:1;
-
+    color:var(--gold);
 }
 
-.ampersand{
+.firstname {
+    font-family:var(--font-heading);
+    font-size:45px;
+    font-weight:500;
+    line-height:1;
+    color:var(--forest);
+}
 
-    margin:18px 0;
-
-    color:var(--sage);
-
-    font-family:'Cormorant Garamond',serif;
-
-    font-size:58px;
-
+.ampersand {
+    margin:1px 0;
+    color:var(--gold);
+    font-family:var(--font-heading);
+    font-size:35px;
 }
 
 /* =====================================================
-   TEXTES
+   TEXTES ET DATE
 ===================================================== */
 
-.invitation{
-
+.invitation {
     margin-top:35px;
-
     max-width:850px;
 
-    font-family:'Cormorant Garamond',serif;
-
+    font-family:var(--font-body);
     font-size:30px;
-
     font-weight:500;
-
-    line-height:1.4;
-
-}
-
-
-.invitation-es{
-
-    margin-top:2px;
-
-    font-size:8px;
-
-    color:var(--sage);
-
     line-height:1.6;
-
+    color:var(--forest);
 }
 
-
-.date{
-
-    margin-top:30px;
-
-    text-align:center;
-
-}
-
-.date .fr{
-
-    font-size:20px;
-
-    letter-spacing:2px;
-
+.invitation-es {
+    margin-top:2px;
+    font-family:var(--font-body);
+    font-size:14px;
     font-weight:300;
-
-}
-
-.date .es{
-
-    margin-top:15px;
-
-    font-size:22px;
-
     color:var(--sage);
-
+    line-height:1.6;
 }
 
+.date {
+    margin-top:30px;
+    text-align:center;
+}
+
+.date .fr {
+    font-family:var(--font-body);
+    font-size:20px;
+    letter-spacing:2px;
+    font-weight:400;
+    color:var(--forest);
+}
+
+.date .es {
+    margin-top:8px;
+    font-family:var(--font-body);
+    font-size:14px;
+    font-weight:300;
+    color:var(--sage);
+}
 
 /* =====================================================
    BOUTON
 ===================================================== */
 
-#openInvitation{
-
+#openInvitation {
     margin-top:30px;
-
     padding:18px 40px;
 
-    background:transparent;
-
-    border:1px solid var(--sage);
-
+    background:var(--forest);
+    border:1px solid var(--gold);
     border-radius:50px;
 
-    color:var(--sage);
-
-    font-family:'Cormorant Garamond',serif;
-
-    font-size:28px;
+    color:var(--white);
+    font-family:var(--font-heading);
+    font-size:24px;
 
     cursor:pointer;
-
     transition:all .35s ease;
-
 }
 
-
-#openInvitation:hover{
-
-    background:var(--sage);
-
-    color:white;
-
+#openInvitation:hover {
+    background:var(--gold);
+    border:1px solid var(--forest);
+    color:var(--white);
     transform:translateY(-3px);
-
 }
+
 /* =====================================================
    ANIMATIONS
 ===================================================== */
@@ -292,7 +259,7 @@ h1{
 
     font-size:36px;
 
-    margin-bottom:45px;
+    margin-bottom:30px;
 
 }
 
@@ -330,7 +297,7 @@ h1{
 
     font-size:22px;
 
-    margin-top:40px;
+    margin-top:30px;
 
     letter-spacing:2px;
 
@@ -344,7 +311,7 @@ h1{
 
     font-size:22px;
 
-    margin-top:60px;
+    margin-top:30px;
 
 }
 
@@ -465,7 +432,7 @@ h1{
 
     min-height:100vh;
 
-    display:none;
+    display:flex;
 
     justify-content:center;
 
@@ -473,7 +440,7 @@ h1{
 
     background:var(--background);
 
-    padding:80px 40px;
+    padding:40px 60px 40px;
 
 }
 
@@ -487,82 +454,77 @@ h1{
 
 }
 
-.storyIntro{
-
-    color:var(--gold);
-
-    letter-spacing:6px;
-
-    text-transform:uppercase;
-
-    font-size:15px;
-
-    margin-bottom:30px;
-
+.storyQuote{
+    max-width:950px;
+    margin:0 auto 45px;
+    text-align:center;
 }
 
-.storyContainer h2{
 
-    font-family:'Cormorant Garamond',serif;
-
-    font-size:64px;
-
-    font-weight:500;
-
-    line-height:1.2;
-
-}
-
-.storyEs{
-
-    margin-top:25px;
-
-    color:var(--sage);
-
-    font-size:24px;
-
-    font-style:italic;
-
-}
 /* =====================================================
-   TEXTE DE L'HISTOIRE
+   CITATION - INTRODUCTION ET TEXTE
 ===================================================== */
 
-.storyText{
-
-    margin-top:70px;
-
-    max-width:760px;
-
-    margin-left:auto;
-
-    margin-right:auto;
-
+.storyQuote {
+    max-width:950px;
+    margin:0 auto 45px;
+    text-align:center;
 }
 
-.storyText .text-fr{
-
-    font-size:20px;
-
-    line-height:2;
-
-    margin-bottom:12px;
-
-    color:#555;
-
+/* Phrase d'introduction française */
+.storyIntroduction.fr {
+    font-family:var(--font-heading);
+    font-size:42px;
+    font-weight:500;
+    line-height:1.3;
+    color:var(--forest);
+    margin-bottom:0;
 }
 
-.storyText .text-es{
-
-    font-size:19px;
-
-    line-height:2;
-
-    margin-bottom:35px;
-
+/* Traduction espagnole de l'introduction */
+.storyIntroduction.es {
+    margin-top:8px;
+    margin-bottom:40px;
+    font-family:var(--font-heading);
+    font-size:40px;
+    font-weight:400;
+    line-height:1.3;
     color:var(--sage);
+        font-style:italic;
 
 }
+
+/* Citation française */
+.storyQuote .text-fr {
+    font-family:var(--font-heading);
+    font-size:27px;
+    font-weight:400;
+    line-height:1.5;
+    color:var(--forest);
+    font-style:italic;
+}
+
+/* Auteur */
+.storyQuote .author {
+    margin-top:12px;
+    font-family:var(--font-body);
+    font-size:14px;
+    font-weight:400;
+    letter-spacing:1px;
+    color:var(--gold);
+}
+
+/* Traduction espagnole de la citation */
+.storyQuote .text-es {
+    margin-top:28px;
+    font-family:var(--font-heading);
+    font-size:26px;
+    font-weight:400;
+    line-height:1.5;
+    color:var(--sage);
+    font-style:italic;
+}
+
 
 /* =====================================================
    PHOTO
@@ -632,6 +594,50 @@ h1{
 
 }
 
+
+/* ==========================
+   TITRES — INFORMATIONS
+========================== */
+
+#informationScene > .informationContainer > p.sectionTitle.fr{
+    font-family:'Cormorant Garamond',serif;
+    font-size:46px;
+    font-weight:600;
+    color:var(--forest);
+    line-height:1.1;
+    margin:0;
+}
+
+#informationScene > .informationContainer > p.es{
+    font-family:'Cormorant Garamond',serif;
+    font-size:44px;
+    font-weight:500;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.1;
+    margin:0 0 30px;
+}
+
+#informationScene > .informationContainer > h2.fr{
+    font-family:'Montserrat',sans-serif;
+    font-size:18px;
+    font-weight:500;
+    color:var(--forest);
+    line-height:1.5;
+    margin:0;
+}
+
+#informationScene > .informationContainer > h3.es{
+    font-family:'Montserrat',sans-serif;
+    font-size:17px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.5;
+    margin:0;
+}
+
+
 .informationGrid{
 
     display:grid;
@@ -648,7 +654,7 @@ h1{
 
     background:#ffffff;
 
-    border:1px solid rgba(155,173,143,.18);
+    border:1px solid rgba(200,165,106,.35);
 
     border-radius:20px;
 
@@ -760,9 +766,9 @@ h1{
 
 #rsvpScene{
 
-    padding:120px 40px;
+    padding:60px 60px 60px;
 
-    background:white;
+    background:var(--background);
 
 }
 
@@ -796,11 +802,13 @@ h1{
 
     padding:18px 22px;
 
-    border:1px solid rgba(155,173,143,.25);
+    border:1px solid rgba(200,165,106,.35);
 
     border-radius:16px;
 
-    background:#FFF;
+    background:white;
+
+    color:#444;
 
     font-size:17px;
 
@@ -1085,9 +1093,9 @@ footer p{
 
 #mapScene{
 
-    padding:120px 40px;
+    padding:60px 60px 60px;
 
-    background:white;
+    background:var(--background);
 
 }
 
@@ -1191,7 +1199,7 @@ footer p{
 
     transform:translateY(-3px);
 
-    background:#7E937A;
+    background:var(--background);
 
     box-shadow:0 18px 35px rgba(0,0,0,.15);
 
@@ -1209,7 +1217,7 @@ footer p{
 
 #timelineScene{
 
-    padding:120px 40px;
+    padding:60px 60px 60px;
 
     background:var(--background);
 
@@ -1305,29 +1313,42 @@ footer p{
 
 .timelineHour{
 
-    font-size:20px;
+    display:inline-block;
+
+    background:var(--gold);
+
+    color:white;
+
+    padding:10px 18px;
+
+    border-radius:50px;
+
+    font-size:18px;
 
     font-weight:600;
 
-    color:var(--gold);
+    margin-bottom:22px;
 
-    margin-bottom:10px;
+    letter-spacing:1px;
 
 }
 
 .timelineContent{
 
     background:white;
+border:1px solid rgba(200,165,106,.35);
 
-    border-radius:18px;
+    border-radius:22px;
 
-    padding:25px 30px;
+    padding:35px;
 
-    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    box-shadow:0 18px 45px rgba(0,0,0,.08);
+
+    transition:.35s;
 
 }
 
-.timelineContent h4{
+.timelineContent h3{
 
     font-family:'Cormorant Garamond',serif;
 
@@ -1356,6 +1377,42 @@ footer p{
         gap:20px;
 
     }
+
+}
+
+.timelineContent:hover{
+
+    transform:translateY(-6px);
+
+    box-shadow:0 28px 60px rgba(0,0,0,.12);
+
+}
+
+.timelineContent h3{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:34px;
+
+    font-weight:500;
+
+    color:var(--sage);
+
+    margin-bottom:10px;
+
+}
+
+.timelineContent h3 i{
+
+    color:var(--gold);
+
+    font-size:24px;
 
 }
 
@@ -1408,4 +1465,956 @@ footer p{
 
     font-size:24px;
 
+}
+
+.timelineContent h3{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
+
+.timelineContent i{
+
+    color:#C8A56A;
+
+    font-size:20px;
+
+}
+
+.timelineItem{
+
+    margin-bottom:30px;
+
+}
+
+/* =====================================================
+   COMPTE À REBOURS
+===================================================== */
+
+#countdownScene{
+
+    padding:40px 40px 40px;
+
+    background:linear-gradient(
+        to bottom,
+        #F8F7F2,
+        #FCFBF8
+    );
+
+}
+
+.countdownContainer{
+
+    max-width:1250px;
+
+    margin:auto;
+
+    text-align:center;
+
+    background:rgba(255,255,255,.65);
+
+    backdrop-filter:blur(10px);
+
+    padding:70px;
+
+    border-radius:35px;
+
+    border:1px solid rgba(200,165,106,.20);
+
+    box-shadow:
+        0 20px 60px rgba(0,0,0,.06);
+
+}
+
+#countdown{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:30px;
+
+    margin-top:70px;
+
+    flex-wrap:wrap;
+
+}
+
+.timeBox{
+
+    width:180px;
+
+    padding:38px 20px;
+
+    background:white;
+
+    border-radius:22px;
+
+    border:1px solid rgba(200,165,106,.18);
+
+    box-shadow:0 10px 30px rgba(0,0,0,.05);
+
+    transition:
+        transform .35s ease,
+        box-shadow .35s ease;
+
+}
+
+.timeBox:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:0 25px 45px rgba(0,0,0,.10);
+
+}
+
+.timeBox span{
+
+    display:block;
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:72px;
+
+    color:var(--gold);
+
+    line-height:1;
+
+    transition:transform .25s ease,
+               opacity .25s ease;
+
+}
+
+.timeBox p{
+
+    margin-top:20px;
+
+    font-size:20px;
+
+    font-weight:500;
+
+}
+
+.timeBox em{
+
+    display:block;
+
+    margin-top:8px;
+
+    color:var(--sage);
+
+    font-size:16px;
+
+    font-style:italic;
+
+}
+
+/* Mobile */
+
+@media screen and (max-width:768px){
+
+    #countdown{
+
+        gap:15px;
+
+    }
+
+    .timeBox{
+
+        width:140px;
+
+        padding:25px 15px;
+
+    }
+
+    .timeBox span{
+
+        font-size:54px;
+
+    }
+
+}
+
+@keyframes numberPulse{
+
+    0%{
+
+        transform:scale(.92);
+
+        opacity:.5;
+
+    }
+
+    100%{
+
+        transform:scale(1);
+
+        opacity:1;
+
+    }
+
+}
+
+.number-update{
+
+    animation:numberPulse .25s ease;
+
+}
+
+
+/* ==========================
+   TITRES — SOUVENIRS
+========================== */
+
+/* Titre français */
+#galleryScene .sectionTitle.fr{
+    font-family:'Cormorant Garamond',serif;
+    font-size:46px;
+    font-weight:600;
+    color:var(--forest);
+    line-height:1.1;
+    margin:0;
+}
+
+/* Titre espagnol */
+#galleryScene p.es{
+    font-family:'Cormorant Garamond',serif;
+    font-size:44px;
+    font-weight:500;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.1;
+    margin:0 0 30px;
+}
+
+/* Sous-titre français */
+#galleryScene h2.fr{
+    font-family:'Montserrat',sans-serif;
+    font-size:18px;
+    font-weight:500;
+    color:var(--forest);
+    line-height:1.5;
+    margin:0;
+}
+
+/* Sous-titre espagnol */
+#galleryScene h3.es{
+    font-family:'Montserrat',sans-serif;
+    font-size:17px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.5;
+    margin:0 0 0;
+}
+
+
+/* =====================================================
+   GALERIE PHOTOS
+===================================================== */
+
+#galleryScene{
+
+    padding:40px 40px 40px;
+
+    background:var(--background);
+
+}
+
+.galleryContainer{
+
+    max-width:1400px;
+
+    margin:auto;
+
+    text-align:center;
+
+}
+
+
+/* ==========================
+   TITRES — PROGRAMME UNIQUEMENT
+========================== */
+
+#timelineScene > .timelineContainer > p.sectionTitle.fr{
+    font-family:'Cormorant Garamond',serif;
+    font-size:46px;
+    font-weight:600;
+    color:var(--forest);
+    line-height:1.1;
+    margin:0;
+}
+
+#timelineScene > .timelineContainer > p.es{
+    font-family:'Cormorant Garamond',serif;
+    font-size:44px;
+    font-weight:500;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.1;
+    margin:0 0 30px;
+}
+
+#timelineScene > .timelineContainer > h2.fr{
+    font-family:'Montserrat',sans-serif;
+    font-size:20px;
+    font-weight:500;
+    color:var(--forest);
+    line-height:1.5;
+    margin:0;
+}
+
+#timelineScene > .timelineContainer > h3.es{
+    font-family:'Montserrat',sans-serif;
+    font-size:18px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.5;
+    margin:0;
+}
+
+
+.galleryGrid{
+
+    margin-top:70px;
+
+    display:grid;
+
+    grid-template-columns:repeat(3,1fr);
+
+    gap:25px;
+
+}
+
+.galleryGrid img{
+
+    width:100%;
+
+    height:320px;
+
+    object-fit:cover;
+
+    border-radius:20px;
+
+    box-shadow:0 15px 35px rgba(0,0,0,.10);
+
+    transition:
+        transform .4s ease,
+        box-shadow .4s ease;
+
+    cursor:pointer;
+
+}
+
+.galleryGrid img:hover{
+
+    transform:scale(1.04);
+
+    box-shadow:0 25px 50px rgba(0,0,0,.18);
+
+}
+
+/* ==========================
+   Responsive
+========================== */
+
+@media screen and (max-width:900px){
+
+    .galleryGrid{
+
+        grid-template-columns:repeat(2,1fr);
+
+    }
+
+}
+
+@media screen and (max-width:600px){
+
+    .galleryGrid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+/* =====================================================
+   LIGHTBOX
+===================================================== */
+
+#lightbox{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,.88);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    opacity:0;
+
+    visibility:hidden;
+
+    transition:opacity .35s ease;
+
+    z-index:99999;
+
+}
+
+#lightbox.show{
+
+    opacity:1;
+
+    visibility:visible;
+
+}
+
+#lightbox img{
+
+    max-width:90%;
+
+    max-height:85vh;
+
+    border-radius:18px;
+
+    box-shadow:0 25px 70px rgba(0,0,0,.45);
+
+    transform:scale(.9);
+
+    transition:transform .35s ease;
+
+}
+
+#lightbox.show img{
+
+    transform:scale(1);
+
+}
+
+#closeLightbox{
+
+    position:absolute;
+
+    top:30px;
+
+    right:40px;
+
+    font-size:60px;
+
+    color:white;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+    user-select:none;
+
+}
+
+#closeLightbox:hover{
+
+    color:var(--gold);
+
+}
+
+/* =====================================================
+   FLÈCHES LIGHTBOX
+===================================================== */
+
+#prevImage,
+#nextImage{
+
+    position:absolute;
+
+    top:50%;
+
+    transform:translateY(-50%);
+
+    width:60px;
+
+    height:60px;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:42px;
+
+    color:white;
+
+    cursor:pointer;
+
+    user-select:none;
+
+    transition:.3s;
+
+}
+
+#prevImage{
+
+    left:30px;
+
+}
+
+#nextImage{
+
+    right:30px;
+
+}
+
+#prevImage:hover,
+#nextImage:hover{
+
+    color:var(--gold);
+
+    transform:translateY(-50%) scale(1.15);
+
+}
+
+/* =====================================================
+   HÉBERGEMENT
+===================================================== */
+
+#accommodationScene{
+
+    padding:40px 40px 40px;
+
+    background:var(--background);
+
+}
+
+.accommodationContainer{
+
+    max-width:900px;
+
+    margin:auto;
+
+    text-align:center;
+
+}
+
+.hotelCard{
+
+    margin-top:60px;
+
+    background:white;
+
+    border:1px solid rgba(200,165,106,.35);
+
+    padding:45px;
+
+    border-radius:24px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.08);
+
+}
+
+.hotelCard i{
+
+    font-size:42px;
+
+    color:var(--gold);
+
+    margin-bottom:25px;
+
+}
+
+.hotelCard h3{
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:36px;
+
+    color:var(--sage);
+
+    margin-bottom:20px;
+
+}
+
+.hotelCard p{
+
+    line-height:1.9;
+
+    color:#555;
+
+}
+
+.hotelCard .es{
+
+    margin-bottom:20px;
+
+}
+
+
+/* ==========================
+   TITRES — HÉBERGEMENT
+========================== */
+
+#accommodationScene > .accommodationContainer > p.sectionTitle.fr{
+    font-family:'Cormorant Garamond',serif;
+    font-size:46px;
+    font-weight:600;
+    color:var(--forest);
+    line-height:1.1;
+    margin:0;
+}
+
+#accommodationScene > .accommodationContainer > p.es{
+    font-family:'Cormorant Garamond',serif;
+    font-size:44px;
+    font-weight:500;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.1;
+    margin:0 0 30px;
+}
+
+#accommodationScene > .accommodationContainer > h2.fr{
+    font-family:'Montserrat',sans-serif;
+    font-size:18px;
+    font-weight:500;
+    color:var(--forest);
+    line-height:1.5;
+    margin:0;
+}
+
+#accommodationScene > .accommodationContainer > h3.es{
+    font-family:'Montserrat',sans-serif;
+    font-size:17px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.5;
+    margin:0;
+}
+
+
+/* ==========================
+   TEXTES — CARTE HÉBERGEMENT
+========================== */
+
+#accommodationScene .hotelCard h3.fr{
+    color:var(--forest);
+}
+
+#accommodationScene .hotelCard p.fr{
+    color:var(--forest);
+}
+
+#accommodationScene .hotelCard p.es{
+    color:var(--sage);
+}
+
+
+/* =====================================================
+   DRESS CODE
+===================================================== */
+
+#dressCodeScene{
+
+    padding:40px 40px 40px;
+
+    background:var(--background);
+
+}
+
+.dressCodeContainer{
+
+    max-width:900px;
+
+    margin:auto;
+
+    text-align:center;
+
+}
+
+.dressCard{
+
+    margin-top:60px;
+
+    background:white;
+
+    border:1px solid rgba(200,165,106,.35);
+
+    border-radius:24px;
+
+    padding:45px;
+
+    box-shadow:0 20px 50px rgba(0,0,0,.08);
+
+}
+
+.dressCard i{
+
+    font-size:42px;
+
+    color:var(--gold);
+
+    margin-bottom:25px;
+
+}
+
+.dressCard h3{
+
+    font-family:'Cormorant Garamond',serif;
+
+    font-size:36px;
+
+    font-weight:500;
+
+    color:var(--sage);
+
+    margin-bottom:20px;
+
+}
+
+.dressCard p{
+
+    line-height:1.9;
+
+    color:#555;
+
+}
+
+.dressCard .es{
+
+    margin-bottom:20px;
+
+}
+
+
+/* ==========================
+   TITRES — DRESS CODE
+========================== */
+
+#dressCodeScene > .dressCodeContainer > p.sectionTitle.fr{
+    font-family:'Cormorant Garamond',serif;
+    font-size:46px;
+    font-weight:600;
+    color:var(--forest);
+    line-height:1.1;
+    margin:0;
+}
+
+#dressCodeScene > .dressCodeContainer > p.es{
+    font-family:'Cormorant Garamond',serif;
+    font-size:44px;
+    font-weight:500;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.1;
+    margin:0 0 30px;
+}
+
+#dressCodeScene > .dressCodeContainer > h2.fr{
+    font-family:'Montserrat',sans-serif;
+    font-size:18px;
+    font-weight:500;
+    color:var(--forest);
+    line-height:1.5;
+    margin:0;
+}
+
+#dressCodeScene > .dressCodeContainer > h3.es{
+    font-family:'Montserrat',sans-serif;
+    font-size:17px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.5;
+    margin:0;
+}
+
+
+/* ==========================
+   TEXTES — CARTE DRESS CODE
+========================== */
+
+#dressCodeScene .dressCard h3.fr{
+    color:var(--forest);
+}
+
+
+#dressCodeScene .dressCard p.fr{
+    color:var(--forest);
+}
+
+#dressCodeScene .dressCard p.es{
+    color:var(--sage);
+}
+
+
+/* =====================================================
+   SÉPARATEUR
+===================================================== */
+
+.separator{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    padding:40px 40px 120px;
+    
+    background:var(--background);
+
+}
+
+.separator img{
+
+    width:100%;
+
+    max-width:500px;
+
+    height:auto;
+
+    display:block;
+
+}
+
+
+/* ==========================
+   TITRES — LIEU
+========================== */
+
+#mapScene > .mapContainer > p.sectionTitle.fr{
+    font-family:'Cormorant Garamond',serif;
+    font-size:46px;
+    font-weight:600;
+    color:var(--forest);
+    line-height:1.1;
+    margin:0;
+}
+
+#mapScene > .mapContainer > p.es{
+    font-family:'Cormorant Garamond',serif;
+    font-size:44px;
+    font-weight:500;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.1;
+    margin:0 0 30px;
+}
+
+#mapScene > .mapContainer > h2.fr{
+    font-family:'Montserrat',sans-serif;
+    font-size:18px;
+    font-weight:500;
+    color:var(--forest);
+    line-height:1.5;
+    margin:0;
+}
+
+#mapScene > .mapContainer > h3.es{
+    font-family:'Montserrat',sans-serif;
+    font-size:17px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--sage);
+    line-height:5;
+    margin:0;
+}
+
+
+/* ==========================
+   TITRES — COMPTE À REBOURS
+========================== */
+
+#countdownScene > .countdownContainer > p.sectionTitle.fr{
+    font-family:'Cormorant Garamond',serif;
+    font-size:46px;
+    font-weight:600;
+    color:var(--forest);
+    line-height:1.1;
+    margin:0;
+}
+
+#countdownScene > .countdownContainer > p.es{
+    font-family:'Cormorant Garamond',serif;
+    font-size:44px;
+    font-weight:500;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.1;
+    margin:0 0 30px;
+}
+
+#countdownScene > .countdownContainer > h2.fr{
+    font-family:'Montserrat',sans-serif;
+    font-size:18px;
+    font-weight:500;
+    color:var(--forest);
+    line-height:5;
+    margin:0;
+}
+
+#countdownScene > .countdownContainer > h3.es{
+    font-family:'Montserrat',sans-serif;
+    font-size:17px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.5;
+    margin:0;
+}
+
+
+/* ==========================
+   TITRES — CONFIRMATION RSVP
+========================== */
+
+/* Confirmation — Français */
+#rsvpScene .rsvpContainer > p.sectionTitle.fr{
+    font-family:'Cormorant Garamond',serif;
+    font-size:46px;
+    font-weight:600;
+    color:var(--forest);
+    line-height:1.1;
+    margin:0;
+}
+
+/* Confirmación — Espagnol */
+#rsvpScene .rsvpContainer > p.sectionTitle.es{
+    font-family:'Cormorant Garamond',serif;
+    font-size:44px;
+    font-weight:500;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.1;
+    margin:0 0 30px;
+}
+
+/* Sous-titre français */
+#rsvpScene .rsvpContainer > h2{
+    font-family:'Montserrat',sans-serif;
+    font-size:18px;
+    font-weight:500;
+    color:var(--forest);
+    line-height:1.5;
+    margin:0;
+}
+
+/* Sous-titre espagnol */
+#rsvpScene .rsvpContainer > p.sectionSubtitle{
+    font-family:'Montserrat',sans-serif;
+    font-size:17px;
+    font-weight:400;
+    font-style:italic;
+    color:var(--sage);
+    line-height:1.5;
+    margin:0 0 30px;
 }
