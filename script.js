@@ -195,17 +195,17 @@ setTimeout(() => {
                 welcomeScene.style.display = "block";
 
                 const photos = [
-                    "assets/images/accueil-apres-portes.png",
-                    "assets/images/photo1.jpg",
-                    "assets/images/photo4.jpg",
-                    "assets/images/photo6.jpg",
-                    "assets/images/photo8.jpg",
-                    "assets/images/photo11.jpg",
-                ];
+    "assets/images/accueil-apres-portes.png",
+    "assets/images/photo5.jpg",
+    "assets/images/photo6.jpg",
+    "assets/images/photo8.jpg",
+    "assets/images/photo11.jpg"
+];
 
                 const welcomeImage = document.getElementById("welcomeImage");
+const welcomeImageNext = document.getElementById("welcomeImageNext");
 
-                let currentPhoto = 0;
+let currentPhoto = 0;
 
                 welcomeImage.src = photos[currentPhoto];
 
@@ -241,66 +241,157 @@ setTimeout(() => {
                 }
 
                 // Passer à la photo suivante sans réafficher l'ancienne.
-                async function nextPhoto() {
-                    const nextIndex = currentPhoto + 1;
-                    welcomeImage.style.opacity = "0";
-                    await wait(1000);
+               
+                
 
-                    if (nextIndex >= photos.length) {
-                        welcomeScene.style.display = "none";
-                        storyScene.style.display = "flex";
-                        initScrollAnimations();
-                        storyScene.classList.add("visible");
-                        window.scrollTo(0, 0);
-                        document.body.style.overflow = "auto";
-                        return;
-                    }
+async function nextPhoto() {
+    const nextIndex = currentPhoto + 1;
 
-                    const loaded = await preloadPhoto(photos[nextIndex]);
-                    if (!loaded) {
-                        console.error("Impossible de charger la photo :", photos[nextIndex]);
-                        currentPhoto = nextIndex;
-                        nextPhoto();
-                        return;
-                    }
+    if (nextIndex >= photos.length) {
 
-                    welcomeImage.src = photos[nextIndex];
-                    currentPhoto = nextIndex;
-                    requestAnimationFrame(() => {
-                        welcomeImage.style.opacity = "1";
-                    });
-                    setTimeout(nextPhoto, 3000);
-                }
+    // Éblouissement blanc sur la dernière photo
+    whiteTransition.style.display = "block";
+    whiteTransition.classList.add("flash");
 
-                // La première image apparaît seule, puis la citation arrive sur son propre fond.
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+
+            // Attendre que l'écran soit entièrement blanc
+            setTimeout(() => {
+
+                welcomeImage.style.display = "none";
+                welcomeImageNext.style.display = "none";
+                welcomeScene.style.display = "none";
+
+                storyScene.style.display = "flex";
+                initScrollAnimations();
+                storyScene.classList.add("visible");
+
+                window.scrollTo(0, 0);
+                document.body.style.overflow = "auto";
+
+                // Révéler progressivement le site
                 setTimeout(() => {
-                    welcomeImage.style.opacity = "0";
+                    whiteTransition.classList.add("flashOut");
+
                     setTimeout(() => {
-                        welcomeScene.style.display = "none";
-                        welcomeQuoteScene.style.display = "flex";
+                        whiteTransition.style.display = "none";
+                        whiteTransition.classList.remove("flash");
+                        whiteTransition.classList.remove("flashOut");
+                    }, 1200);
+
+                }, 500);
+
+            }, 300);
+
+        });
+    });
+
+    return;
+}
+
+    const loaded = await preloadPhoto(photos[nextIndex]);
+
+    if (!loaded) {
+        console.error("Impossible de charger :", photos[nextIndex]);
+        currentPhoto = nextIndex;
+        nextPhoto();
+        return;
+    }
+
+    const currentImage = currentPhoto % 2 === 0
+        ? welcomeImage
+        : welcomeImageNext;
+
+    const nextImage = currentPhoto % 2 === 0
+        ? welcomeImageNext
+        : welcomeImage;
+
+    nextImage.src = photos[nextIndex];
+    nextImage.style.display = "block";
+    nextImage.style.opacity = "0";
+
+    // Attendre que la nouvelle image soit prête à apparaître
+    await new Promise(resolve => requestAnimationFrame(() => {
+        requestAnimationFrame(resolve);
+    }));
+
+    // Fondu enchaîné
+    nextImage.style.opacity = "1";
+    currentImage.style.opacity = "0";
+
+    currentPhoto = nextIndex;
+
+    // Attendre la fin du fondu
+    setTimeout(() => {
+        currentImage.style.display = "none";
+        currentImage.style.opacity = "0";
+
+        // Laisser la nouvelle photo affichée 2 secondes
+        setTimeout(nextPhoto, 1000);
+
+    }, 1000);
+}
+
+
+// La première image apparaît seule, puis la citation arrive sur son propre fond.
+setTimeout(() => {
+    welcomeImage.style.opacity = "0";
+
+    setTimeout(() => {
+        welcomeScene.style.display = "none";
+        welcomeQuoteScene.style.display = "flex";
+
+        // Apparition progressive du fond
+        requestAnimationFrame(() => {
+            welcomeQuoteScene.classList.add("show");
+        });
+
+        // Attendre 1 seconde avant l'apparition du texte
+        setTimeout(() => {
+            welcomeQuoteScene.classList.add("textVisible");
+
+            // Le texte reste visible pendant 4 secondes
+            setTimeout(() => {
+
+                // Disparition progressive du texte
+                welcomeQuoteScene.classList.remove("textVisible");
+
+                // Attendre la fin du fondu du texte
+                setTimeout(() => {
+
+                    // Disparition du fond
+                    welcomeQuoteScene.classList.remove("show");
+
+                    // Attendre la fin du fondu du fond
+                    setTimeout(() => {
+                        welcomeQuoteScene.style.display = "none";
+
+                        welcomeScene.style.display = "block";
+
                         requestAnimationFrame(() => {
-                            welcomeQuoteScene.classList.add("show");
+                            welcomeScene.classList.add("show");
                         });
 
-                        setTimeout(() => {
-                            welcomeQuoteScene.classList.remove("show");
-                            setTimeout(() => {
-                                welcomeQuoteScene.style.display = "none";
-                                welcomeScene.style.display = "block";
-                                requestAnimationFrame(() => {
-                                    welcomeScene.classList.add("show");
-                                });
-                                nextPhoto();
-                            }, 1200);
-                        }, 4000);
-                    }, 1000);
-                }, 3000);
+                        nextPhoto();
 
-            }, 1200);
+                    }, 1200);
 
-        }, 1700);
+                }, 1000);
 
-    }, 300);
+            }, 4000);
+
+        }, 1000);
+
+    }, 1000);
+
+}, 3000);
+
+}, 1200);
+
+}, 1700);
+
+}, 300);
 
 }, 4000);
 
