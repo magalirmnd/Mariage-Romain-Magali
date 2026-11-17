@@ -133,6 +133,7 @@ window.addEventListener("resize", resizeCanvas);
 // --------------------------------
 
 let running = false;
+let fireworksStopping = false;
 
 const rockets = [];
 const particles = [];
@@ -150,6 +151,7 @@ function startInvitation() {
     if (running) return;
 
     running = true;
+    fireworksStopping = false;
     hero.style.display = "none";
     fireworksScene.style.display = "flex";
 
@@ -160,35 +162,10 @@ function startInvitation() {
 
     animate();
 
-    // 1. Fin des feux d'artifice
+    // Après 4 secondes, arrêter les nouveaux départs.
+    // Les dernières particules restent animées jusqu'à leur extinction complète.
     setTimeout(() => {
-
-        running = false;
-        fireworksScene.style.display = "none";
-
-        // 2. Afficher la citation après l'extinction complète des feux
-        welcomeQuoteScene.classList.remove("show", "textVisible");
-        welcomeQuoteScene.style.transition = "none";
-        welcomeQuoteScene.style.opacity = "1";
-        welcomeQuoteScene.style.display = "flex";
-
-        // Seule la phrase apparaît progressivement en fondu
-        const quote = document.getElementById("welcomeQuote");
-        quote.style.transition = "opacity 1s ease";
-        quote.style.opacity = "0";
-
-        requestAnimationFrame(() => {
-            requestAnimationFrame(() => {
-                quote.style.opacity = "1";
-            });
-        });
-
-        // Garder la citation visible 4 secondes
-        setTimeout(() => {
-            welcomeQuoteScene.style.display = "none";
-            lancerDiaporama();
-        }, 4000);
-
+        fireworksStopping = true;
     }, 4000);
 }
 
@@ -363,6 +340,37 @@ function animate() {
         return;
     }
 
+    // Attendre la disparition de toutes les fusées et particules avant la citation.
+    if (fireworksStopping && rockets.length === 0 && particles.length === 0) {
+        running = false;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        fireworksScene.style.display = "none";
+
+        // Le fond apparaît immédiatement ; seule la phrase arrive en fondu.
+        welcomeQuoteScene.classList.remove("show", "textVisible");
+        welcomeQuoteScene.style.transition = "none";
+        welcomeQuoteScene.style.opacity = "1";
+        welcomeQuoteScene.style.display = "flex";
+
+        const quote = document.getElementById("welcomeQuote");
+        quote.style.removeProperty("opacity");
+        quote.style.removeProperty("transition");
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                welcomeQuoteScene.classList.add("textVisible");
+            });
+        });
+
+        setTimeout(() => {
+            welcomeQuoteScene.style.display = "none";
+            welcomeQuoteScene.classList.remove("textVisible");
+            lancerDiaporama();
+        }, 4000);
+
+        return;
+    }
+
 ctx.fillStyle = "rgba(248,247,242,0.18)";
 ctx.fillRect(0,0,canvas.width,canvas.height);
 
@@ -410,10 +418,8 @@ ctx.fill();
 
             setTimeout(() => {
 
-    if(running){
-
+    if (running && !fireworksStopping) {
         lancerFusee();
-
     }
 
 }, 300 + Math.random() * 700);
