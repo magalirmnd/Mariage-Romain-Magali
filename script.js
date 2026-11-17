@@ -16,7 +16,11 @@ const fireworksScene = document.getElementById("fireworksScene");
 const canvas = document.getElementById("fireworksCanvas");
 const ctx = canvas.getContext("2d");
 const doorsScene = document.getElementById("doorsScene");
+const whiteTransition = document.getElementById("whiteTransition");
+const welcomeScene = document.getElementById("welcomeScene");
 const storyScene = document.getElementById("storyScene");
+const slideshowScene = document.getElementById("slideshowScene");
+const slideshowImage = document.getElementById("slideshowImage");
 
 // =====================================================
 // Apparition des sections au défilement
@@ -168,47 +172,126 @@ hero.style.display = "none";
     }
 
     animate();
- // Fin automatique du feu d'artifice
-    setTimeout(() => {
 
-        running = false;
-
-        fireworksScene.style.display = "none";
-
-        doorsScene.style.display = "block";
-
-        setTimeout(() => {
-
-            doorsScene.classList.add("open");
-
-            setTimeout(() => {
-
-
+// Fin automatique du feu d'artifice
 setTimeout(() => {
 
-   storyScene.style.display = "flex";
+    running = false;
+    fireworksScene.style.display = "none";
+    doorsScene.style.display = "block";
 
-initScrollAnimations();
+    // Ouverture des portes
+    setTimeout(() => {
 
-storyScene.classList.add("visible");
+        doorsScene.classList.add("open");
 
-window.scrollTo(0, 0);
+        // Transition blanche après l'ouverture
+        setTimeout(() => {
 
-document.body.style.overflow = "auto";
+            whiteTransition.style.display = "block";
 
-}, 50);
+            requestAnimationFrame(() => {
+                whiteTransition.classList.add("active");
+            });
 
-            },900);
-
+            // Préparation du diaporama
             setTimeout(() => {
 
                 doorsScene.style.display = "none";
+                welcomeScene.style.display = "block";
 
-            },1700);
+                const photos = [
+                    "assets/images/accueil-apres-portes.png",
+                    "assets/images/photo1.jpg",
+                    "assets/images/photo4.jpg",
+                    "assets/images/photo6.jpg",
+                    "assets/images/photo8.jpg",
+                    "assets/images/photo11.jpg",
+                ];
 
-        },300);
+                const welcomeImage = document.getElementById("welcomeImage");
 
-    },4000);
+                let currentPhoto = 0;
+
+                welcomeImage.src = photos[currentPhoto];
+
+                requestAnimationFrame(() => {
+                    welcomeScene.classList.add("show");
+                });
+
+                // Révéler la première photo
+                setTimeout(() => {
+
+                    whiteTransition.classList.remove("active");
+
+                    setTimeout(() => {
+                        whiteTransition.style.display = "none";
+                    }, 1200);
+
+                }, 100);
+
+                // Faire défiler les photos
+                function nextPhoto() {
+
+                    welcomeImage.style.opacity = "0";
+
+                    setTimeout(() => {
+
+                        currentPhoto++;
+
+                        if (currentPhoto >= photos.length) {
+
+                            welcomeScene.style.display = "none";
+
+                            storyScene.style.display = "flex";
+                            initScrollAnimations();
+                            storyScene.classList.add("visible");
+
+                            window.scrollTo(0, 0);
+                            document.body.style.overflow = "auto";
+
+                            return;
+                        }
+
+                        welcomeImage.src = photos[currentPhoto];
+
+                        requestAnimationFrame(() => {
+                            welcomeImage.style.opacity = "1";
+                        });
+
+                        setTimeout(nextPhoto, 3000);
+
+                    }, 1000);
+                }
+
+                // Apparition simultanée des deux phrases
+setTimeout(() => {
+
+    const welcomeQuote = document.getElementById("welcomeQuote");
+
+    welcomeQuote.classList.add("show");
+
+    // Les phrases restent visibles 4 secondes
+    setTimeout(() => {
+
+        welcomeQuote.classList.remove("show");
+
+        // Attendre la fin du fondu avant le diaporama
+        setTimeout(() => {
+            nextPhoto();
+        }, 1500);
+
+    }, 4000);
+
+}, 1000);
+
+            }, 1200);
+
+        }, 1700);
+
+    }, 300);
+
+}, 4000);
 
 }
 
