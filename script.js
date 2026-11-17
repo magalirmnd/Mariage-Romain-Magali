@@ -153,52 +153,39 @@ function startInvitation() {
     hero.style.display = "none";
     fireworksScene.style.display = "flex";
 
-    // Lance plusieurs fusées dès le début
+    // Lancer les feux d'artifice
     for (let i = 0; i < 5; i++) {
         setTimeout(() => lancerFusee(), i * 500);
     }
 
     animate();
 
-    // Fin automatique du feu d'artifice
+    // 1. Fin des feux d'artifice
     setTimeout(() => {
 
         running = false;
         fireworksScene.style.display = "none";
 
-        // 1. Afficher la citation après les feux d'artifice
+        // 2. Afficher la citation, sans fondu
         welcomeQuoteScene.classList.remove("show", "textVisible");
+        welcomeQuoteScene.style.transition = "none";
+        welcomeQuoteScene.style.opacity = "1";
         welcomeQuoteScene.style.display = "flex";
 
-        requestAnimationFrame(() => {
-            welcomeQuoteScene.classList.add("show");
-        });
+        const quote = document.getElementById("welcomeQuote");
+        quote.style.transition = "none";
+        quote.style.opacity = "1";
 
+        // Garder la citation visible 4 secondes
         setTimeout(() => {
-            welcomeQuoteScene.classList.add("textVisible");
-
-            // La citation reste affichée 4 secondes
-            setTimeout(() => {
-                welcomeQuoteScene.classList.remove("textVisible");
-
-                setTimeout(() => {
-                    welcomeQuoteScene.classList.remove("show");
-
-                    setTimeout(() => {
-                        welcomeQuoteScene.style.display = "none";
-                        lancerDiaporama();
-                    }, 1200);
-
-                }, 1000);
-
-            }, 4000);
-
-        }, 1000);
+            welcomeQuoteScene.style.display = "none";
+            lancerDiaporama();
+        }, 4000);
 
     }, 4000);
 }
 
-// 2. Diaporama : la photo d'accueil est déplacée à la toute fin
+// 3. Diaporama, puis photo finale et ouverture des portes
 function lancerDiaporama() {
 
     const photos = [
@@ -209,26 +196,17 @@ function lancerDiaporama() {
     ];
 
     const photoFinale = "assets/images/accueil-apres-portes.png";
-
     const welcomeImage = document.getElementById("welcomeImage");
     const welcomeImageNext = document.getElementById("welcomeImageNext");
-
-    let imageActuelle = welcomeImage;
-    let imageSuivante = welcomeImageNext;
 
     function attendre(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
-    function imagePrete(src) {
+    function chargerImage(src) {
         return new Promise(resolve => {
             const image = new Image();
-            image.onload = async () => {
-                if (image.decode) {
-                    try { await image.decode(); } catch (error) {}
-                }
-                resolve(true);
-            };
+            image.onload = () => resolve(true);
             image.onerror = () => {
                 console.error("Impossible de charger la photo :", src);
                 resolve(false);
@@ -237,111 +215,75 @@ function lancerDiaporama() {
         });
     }
 
-    async function afficherPremierePhoto() {
-        const loaded = await imagePrete(photos[0]);
-        if (!loaded) return;
+    async function afficherPhoto(src) {
+        const chargee = await chargerImage(src);
+        if (!chargee) return false;
 
-        welcomeImage.src = photos[0];
+        // Affichage direct, sans fondu ni transition
+        welcomeImage.src = src;
+        welcomeImage.style.transition = "none";
+        welcomeImage.style.opacity = "1";
         welcomeImage.style.display = "block";
-        welcomeImage.style.opacity = "0";
+
         welcomeImageNext.style.display = "none";
         welcomeImageNext.style.opacity = "0";
+        welcomeImageNext.style.transition = "none";
 
+        welcomeScene.style.transition = "none";
+        welcomeScene.style.opacity = "1";
         welcomeScene.style.display = "block";
 
-        requestAnimationFrame(() => {
-            welcomeScene.classList.add("show");
-            welcomeImage.style.opacity = "1";
-        });
+        return true;
+    }
 
-        // Faire défiler les quatre photos du diaporama
-        for (let i = 1; i < photos.length; i++) {
+    async function lancerSequence() {
+
+        // 3. Afficher les photos du diaporama, dans l'ordre
+        for (const photo of photos) {
+            const chargee = await afficherPhoto(photo);
+            if (!chargee) continue;
             await attendre(3000);
-
-            const loadedNext = await imagePrete(photos[i]);
-            if (!loadedNext) continue;
-
-            imageSuivante.src = photos[i];
-            imageSuivante.style.display = "block";
-            imageSuivante.style.opacity = "0";
-
-            await new Promise(resolve => requestAnimationFrame(() => {
-                requestAnimationFrame(resolve);
-            }));
-
-            imageSuivante.style.opacity = "1";
-            imageActuelle.style.opacity = "0";
-
-            await attendre(1000);
-
-            imageActuelle.style.display = "none";
-            imageActuelle.style.opacity = "0";
-
-            const ancienneImage = imageActuelle;
-            imageActuelle = imageSuivante;
-            imageSuivante = ancienneImage;
         }
 
-        // Afficher la photo finale de Magali et Romain
-        const loadedFinale = await imagePrete(photoFinale);
-        if (!loadedFinale) return;
+        // 4. Afficher la photo finale de Magali et Romain
+        const finaleChargee = await afficherPhoto(photoFinale);
+        if (!finaleChargee) return;
 
-        imageSuivante.src = photoFinale;
-        imageSuivante.style.display = "block";
-        imageSuivante.style.opacity = "0";
-
-        await new Promise(resolve => requestAnimationFrame(() => {
-            requestAnimationFrame(resolve);
-        }));
-
-        imageSuivante.style.opacity = "1";
-        imageActuelle.style.opacity = "0";
-
-        await attendre(1000);
-
-        imageActuelle.style.display = "none";
-        imageActuelle.style.opacity = "0";
-
-        const ancienneImage = imageActuelle;
-        imageActuelle = imageSuivante;
-        imageSuivante = ancienneImage;
-
-        // Garder la photo finale entièrement visible avant les portes
+        // Laisser la photo finale seule à l'écran
         await attendre(3500);
 
-        // Préparer le site derrière les portes fermées
+        // Préparer le site derrière les portes
         storyScene.style.display = "flex";
         initScrollAnimations();
         storyScene.classList.add("visible");
         window.scrollTo(0, 0);
         document.body.style.overflow = "hidden";
 
-        // Afficher les portes fermées par-dessus la photo finale
+        // 5. Afficher les portes fermées devant la photo finale
         doorsScene.classList.remove("open");
         doorsScene.style.display = "block";
 
-        // Laisser les portes fermées visibles avant de les ouvrir
-        await attendre(700);
+        // Les portes restent fermées un court instant
+        await attendre(800);
 
-        // La photo est masquée derrière les portes fermées
+        // Masquer la photo derrière les portes fermées
         welcomeScene.style.display = "none";
 
-        // Deux images d'affichage garantissent le déclenchement de la transition CSS
-        await new Promise(resolve => requestAnimationFrame(() => {
-            requestAnimationFrame(resolve);
-        }));
+        // 6. Ouvrir les portes sans animation pour le moment
+        doorsScene.querySelectorAll(".door").forEach(door => {
+            door.style.transition = "none";
+        });
 
         doorsScene.classList.add("open");
 
-        // Attendre la fin de l'ouverture des portes
-        await attendre(2700);
-
+        // Retirer les portes : le site est maintenant visible
+        await attendre(50);
         doorsScene.style.display = "none";
         doorsScene.classList.remove("open");
         document.body.style.overflow = "auto";
     }
 
-    afficherPremierePhoto();
+    lancerSequence();
 }
 
 // --------------------------------
