@@ -680,7 +680,7 @@ h1{
 
 .informationCard + .informationCard{
 
-    margin-top:20px;
+    margin-top:0;
 
 }
 
