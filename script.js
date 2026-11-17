@@ -205,32 +205,23 @@ function lancerDiaporama() {
         "assets/images/photo5.jpg",
         "assets/images/photo6.jpg",
         "assets/images/photo8.jpg",
-        "assets/images/photo11.jpg",
-        "assets/images/accueil-apres-portes.png"
+        "assets/images/photo11.jpg"
     ];
+
+    const photoFinale = "assets/images/accueil-apres-portes.png";
 
     const welcomeImage = document.getElementById("welcomeImage");
     const welcomeImageNext = document.getElementById("welcomeImageNext");
 
-    let currentPhoto = 0;
+    let imageActuelle = welcomeImage;
+    let imageSuivante = welcomeImageNext;
 
-    welcomeScene.classList.remove("show");
-    welcomeScene.style.display = "block";
+    function attendre(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
-    welcomeImage.src = photos[currentPhoto];
-    welcomeImage.style.display = "block";
-    welcomeImage.style.opacity = "0";
-
-    welcomeImageNext.style.display = "none";
-    welcomeImageNext.style.opacity = "0";
-
-    requestAnimationFrame(() => {
-        welcomeScene.classList.add("show");
-        welcomeImage.style.opacity = "1";
-    });
-
-    function preloadPhoto(src) {
-        return new Promise((resolve) => {
+    function imagePrete(src) {
+        return new Promise(resolve => {
             const image = new Image();
             image.onload = async () => {
                 if (image.decode) {
@@ -238,87 +229,119 @@ function lancerDiaporama() {
                 }
                 resolve(true);
             };
-            image.onerror = () => resolve(false);
+            image.onerror = () => {
+                console.error("Impossible de charger la photo :", src);
+                resolve(false);
+            };
             image.src = src;
         });
     }
 
-    async function nextPhoto() {
+    async function afficherPremierePhoto() {
+        const loaded = await imagePrete(photos[0]);
+        if (!loaded) return;
 
-        const nextIndex = currentPhoto + 1;
+        welcomeImage.src = photos[0];
+        welcomeImage.style.display = "block";
+        welcomeImage.style.opacity = "0";
+        welcomeImageNext.style.display = "none";
+        welcomeImageNext.style.opacity = "0";
 
-        // La dernière photo reste affichée, puis les portes s'ouvrent sur le site
-        if (nextIndex >= photos.length) {
+        welcomeScene.style.display = "block";
 
-            doorsScene.classList.remove("open");
-            doorsScene.style.display = "block";
+        requestAnimationFrame(() => {
+            welcomeScene.classList.add("show");
+            welcomeImage.style.opacity = "1";
+        });
 
-            // Préparer le site derrière les portes fermées
-            storyScene.style.display = "flex";
-            initScrollAnimations();
-            storyScene.classList.add("visible");
-            window.scrollTo(0, 0);
-            document.body.style.overflow = "auto";
+        // Faire défiler les quatre photos du diaporama
+        for (let i = 1; i < photos.length; i++) {
+            await attendre(3000);
 
-            // Les portes masquent la photo finale avant de révéler le site
-            welcomeScene.style.display = "none";
+            const loadedNext = await imagePrete(photos[i]);
+            if (!loadedNext) continue;
 
-            requestAnimationFrame(() => {
-                doorsScene.classList.add("open");
-            });
+            imageSuivante.src = photos[i];
+            imageSuivante.style.display = "block";
+            imageSuivante.style.opacity = "0";
 
-            // Masquer les portes une fois leur ouverture terminée
-            setTimeout(() => {
-                doorsScene.style.display = "none";
-                doorsScene.classList.remove("open");
-            }, 2600);
+            await new Promise(resolve => requestAnimationFrame(() => {
+                requestAnimationFrame(resolve);
+            }));
 
-            return;
+            imageSuivante.style.opacity = "1";
+            imageActuelle.style.opacity = "0";
+
+            await attendre(1000);
+
+            imageActuelle.style.display = "none";
+            imageActuelle.style.opacity = "0";
+
+            const ancienneImage = imageActuelle;
+            imageActuelle = imageSuivante;
+            imageSuivante = ancienneImage;
         }
 
-        const loaded = await preloadPhoto(photos[nextIndex]);
+        // Afficher la photo finale de Magali et Romain
+        const loadedFinale = await imagePrete(photoFinale);
+        if (!loadedFinale) return;
 
-        if (!loaded) {
-            console.error("Impossible de charger :", photos[nextIndex]);
-            currentPhoto = nextIndex;
-            nextPhoto();
-            return;
-        }
+        imageSuivante.src = photoFinale;
+        imageSuivante.style.display = "block";
+        imageSuivante.style.opacity = "0";
 
-        const currentImage = currentPhoto % 2 === 0
-            ? welcomeImage
-            : welcomeImageNext;
-
-        const nextImage = currentPhoto % 2 === 0
-            ? welcomeImageNext
-            : welcomeImage;
-
-        nextImage.src = photos[nextIndex];
-        nextImage.style.display = "block";
-        nextImage.style.opacity = "0";
-
-        // Attendre que la nouvelle photo soit prête à apparaître
         await new Promise(resolve => requestAnimationFrame(() => {
             requestAnimationFrame(resolve);
         }));
 
-        // Fondu enchaîné entre les deux photos
-        nextImage.style.opacity = "1";
-        currentImage.style.opacity = "0";
-        currentPhoto = nextIndex;
+        imageSuivante.style.opacity = "1";
+        imageActuelle.style.opacity = "0";
 
-        setTimeout(() => {
-            currentImage.style.display = "none";
-            currentImage.style.opacity = "0";
+        await attendre(1000);
 
-            // Conserver le rythme actuel du diaporama
-            setTimeout(nextPhoto, 1000);
+        imageActuelle.style.display = "none";
+        imageActuelle.style.opacity = "0";
 
-        }, 1000);
+        const ancienneImage = imageActuelle;
+        imageActuelle = imageSuivante;
+        imageSuivante = ancienneImage;
+
+        // Garder la photo finale entièrement visible avant les portes
+        await attendre(3500);
+
+        // Préparer le site derrière les portes fermées
+        storyScene.style.display = "flex";
+        initScrollAnimations();
+        storyScene.classList.add("visible");
+        window.scrollTo(0, 0);
+        document.body.style.overflow = "hidden";
+
+        // Afficher les portes fermées par-dessus la photo finale
+        doorsScene.classList.remove("open");
+        doorsScene.style.display = "block";
+
+        // Laisser les portes fermées visibles avant de les ouvrir
+        await attendre(700);
+
+        // La photo est masquée derrière les portes fermées
+        welcomeScene.style.display = "none";
+
+        // Deux images d'affichage garantissent le déclenchement de la transition CSS
+        await new Promise(resolve => requestAnimationFrame(() => {
+            requestAnimationFrame(resolve);
+        }));
+
+        doorsScene.classList.add("open");
+
+        // Attendre la fin de l'ouverture des portes
+        await attendre(2700);
+
+        doorsScene.style.display = "none";
+        doorsScene.classList.remove("open");
+        document.body.style.overflow = "auto";
     }
 
-    // Laisser la première photo visible avant de lancer le diaporama
-    setTimeout(nextPhoto, 3000);
+    afficherPremierePhoto();
 }
 
 // --------------------------------
