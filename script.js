@@ -18,6 +18,7 @@ const ctx = canvas.getContext("2d");
 const doorsScene = document.getElementById("doorsScene");
 const whiteTransition = document.getElementById("whiteTransition");
 const welcomeScene = document.getElementById("welcomeScene");
+const welcomeQuoteScene = document.getElementById("welcomeQuoteScene");
 const storyScene = document.getElementById("storyScene");
 
 // =====================================================
@@ -149,232 +150,43 @@ function startInvitation() {
     if (running) return;
 
     running = true;
-
-hero.style.display = "none";
-
+    hero.style.display = "none";
     fireworksScene.style.display = "flex";
 
     // Lance plusieurs fusées dès le début
-    for(let i = 0; i < 5; i++){
-
-        setTimeout(() => {
-
-            lancerFusee();
-
-        }, i * 500);
-
+    for (let i = 0; i < 5; i++) {
+        setTimeout(() => lancerFusee(), i * 500);
     }
 
     animate();
 
-// Fin automatique du feu d'artifice
-setTimeout(() => {
-
-    running = false;
-    fireworksScene.style.display = "none";
-    doorsScene.style.display = "block";
-
-    // Ouverture des portes
+    // Fin automatique du feu d'artifice
     setTimeout(() => {
 
-        doorsScene.classList.add("open");
+        running = false;
+        fireworksScene.style.display = "none";
 
-        // Transition blanche après l'ouverture
-        setTimeout(() => {
-
-            whiteTransition.style.display = "block";
-
-            requestAnimationFrame(() => {
-                whiteTransition.classList.add("active");
-            });
-
-            // Préparation du diaporama
-            setTimeout(() => {
-
-                doorsScene.style.display = "none";
-                welcomeScene.style.display = "block";
-
-                const photos = [
-    "assets/images/accueil-apres-portes.png",
-    "assets/images/photo5.jpg",
-    "assets/images/photo6.jpg",
-    "assets/images/photo8.jpg",
-    "assets/images/photo11.jpg"
-];
-
-                const welcomeImage = document.getElementById("welcomeImage");
-const welcomeImageNext = document.getElementById("welcomeImageNext");
-
-let currentPhoto = 0;
-
-                welcomeImage.src = photos[currentPhoto];
-
-                requestAnimationFrame(() => {
-                    welcomeScene.classList.add("show");
-                });
-
-                // Retirer le voile blanc après l'arrivée de la première image.
-                setTimeout(() => {
-                    whiteTransition.classList.remove("active");
-                    setTimeout(() => {
-                        whiteTransition.style.display = "none";
-                    }, 1200);
-                }, 100);
-
-                // Précharger chaque photo avant de remplacer celle qui est affichée.
-                function preloadPhoto(src) {
-                    return new Promise((resolve) => {
-                        const image = new Image();
-                        image.onload = async () => {
-                            if (image.decode) {
-                                try { await image.decode(); } catch (error) {}
-                            }
-                            resolve(true);
-                        };
-                        image.onerror = () => resolve(false);
-                        image.src = src;
-                    });
-                }
-
-                function wait(ms) {
-                    return new Promise(resolve => setTimeout(resolve, ms));
-                }
-
-                // Passer à la photo suivante sans réafficher l'ancienne.
-               
-                
-
-async function nextPhoto() {
-    const nextIndex = currentPhoto + 1;
-
-    if (nextIndex >= photos.length) {
-
-    // Éblouissement blanc sur la dernière photo
-    whiteTransition.style.display = "block";
-    whiteTransition.classList.add("flash");
-
-    requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-
-            // Attendre que l'écran soit entièrement blanc
-            setTimeout(() => {
-
-                welcomeImage.style.display = "none";
-                welcomeImageNext.style.display = "none";
-                welcomeScene.style.display = "none";
-
-                storyScene.style.display = "flex";
-                initScrollAnimations();
-                storyScene.classList.add("visible");
-
-                window.scrollTo(0, 0);
-                document.body.style.overflow = "auto";
-
-                // Révéler progressivement le site
-                setTimeout(() => {
-                    whiteTransition.classList.add("flashOut");
-
-                    setTimeout(() => {
-                        whiteTransition.style.display = "none";
-                        whiteTransition.classList.remove("flash");
-                        whiteTransition.classList.remove("flashOut");
-                    }, 1200);
-
-                }, 500);
-
-            }, 300);
-
-        });
-    });
-
-    return;
-}
-
-    const loaded = await preloadPhoto(photos[nextIndex]);
-
-    if (!loaded) {
-        console.error("Impossible de charger :", photos[nextIndex]);
-        currentPhoto = nextIndex;
-        nextPhoto();
-        return;
-    }
-
-    const currentImage = currentPhoto % 2 === 0
-        ? welcomeImage
-        : welcomeImageNext;
-
-    const nextImage = currentPhoto % 2 === 0
-        ? welcomeImageNext
-        : welcomeImage;
-
-    nextImage.src = photos[nextIndex];
-    nextImage.style.display = "block";
-    nextImage.style.opacity = "0";
-
-    // Attendre que la nouvelle image soit prête à apparaître
-    await new Promise(resolve => requestAnimationFrame(() => {
-        requestAnimationFrame(resolve);
-    }));
-
-    // Fondu enchaîné
-    nextImage.style.opacity = "1";
-    currentImage.style.opacity = "0";
-
-    currentPhoto = nextIndex;
-
-    // Attendre la fin du fondu
-    setTimeout(() => {
-        currentImage.style.display = "none";
-        currentImage.style.opacity = "0";
-
-        // Laisser la nouvelle photo affichée 2 secondes
-        setTimeout(nextPhoto, 1000);
-
-    }, 1000);
-}
-
-
-// La première image apparaît seule, puis la citation arrive sur son propre fond.
-setTimeout(() => {
-    welcomeImage.style.opacity = "0";
-
-    setTimeout(() => {
-        welcomeScene.style.display = "none";
+        // 1. Afficher la citation après les feux d'artifice
+        welcomeQuoteScene.classList.remove("show", "textVisible");
         welcomeQuoteScene.style.display = "flex";
 
-        // Apparition progressive du fond
         requestAnimationFrame(() => {
             welcomeQuoteScene.classList.add("show");
         });
 
-        // Attendre 1 seconde avant l'apparition du texte
         setTimeout(() => {
             welcomeQuoteScene.classList.add("textVisible");
 
-            // Le texte reste visible pendant 4 secondes
+            // La citation reste affichée 4 secondes
             setTimeout(() => {
-
-                // Disparition progressive du texte
                 welcomeQuoteScene.classList.remove("textVisible");
 
-                // Attendre la fin du fondu du texte
                 setTimeout(() => {
-
-                    // Disparition du fond
                     welcomeQuoteScene.classList.remove("show");
 
-                    // Attendre la fin du fondu du fond
                     setTimeout(() => {
                         welcomeQuoteScene.style.display = "none";
-
-                        welcomeScene.style.display = "block";
-
-                        requestAnimationFrame(() => {
-                            welcomeScene.classList.add("show");
-                        });
-
-                        nextPhoto();
-
+                        lancerDiaporama();
                     }, 1200);
 
                 }, 1000);
@@ -383,18 +195,130 @@ setTimeout(() => {
 
         }, 1000);
 
-    }, 1000);
+    }, 4000);
+}
 
-}, 3000);
+// 2. Diaporama : la photo d'accueil est déplacée à la toute fin
+function lancerDiaporama() {
 
-}, 1200);
+    const photos = [
+        "assets/images/photo5.jpg",
+        "assets/images/photo6.jpg",
+        "assets/images/photo8.jpg",
+        "assets/images/photo11.jpg",
+        "assets/images/accueil-apres-portes.png"
+    ];
 
-}, 1700);
+    const welcomeImage = document.getElementById("welcomeImage");
+    const welcomeImageNext = document.getElementById("welcomeImageNext");
 
-}, 300);
+    let currentPhoto = 0;
 
-}, 4000);
+    welcomeScene.classList.remove("show");
+    welcomeScene.style.display = "block";
 
+    welcomeImage.src = photos[currentPhoto];
+    welcomeImage.style.display = "block";
+    welcomeImage.style.opacity = "0";
+
+    welcomeImageNext.style.display = "none";
+    welcomeImageNext.style.opacity = "0";
+
+    requestAnimationFrame(() => {
+        welcomeScene.classList.add("show");
+        welcomeImage.style.opacity = "1";
+    });
+
+    function preloadPhoto(src) {
+        return new Promise((resolve) => {
+            const image = new Image();
+            image.onload = async () => {
+                if (image.decode) {
+                    try { await image.decode(); } catch (error) {}
+                }
+                resolve(true);
+            };
+            image.onerror = () => resolve(false);
+            image.src = src;
+        });
+    }
+
+    async function nextPhoto() {
+
+        const nextIndex = currentPhoto + 1;
+
+        // La dernière photo reste affichée, puis les portes s'ouvrent sur le site
+        if (nextIndex >= photos.length) {
+
+            doorsScene.classList.remove("open");
+            doorsScene.style.display = "block";
+
+            // Préparer le site derrière les portes fermées
+            storyScene.style.display = "flex";
+            initScrollAnimations();
+            storyScene.classList.add("visible");
+            window.scrollTo(0, 0);
+            document.body.style.overflow = "auto";
+
+            // Les portes masquent la photo finale avant de révéler le site
+            welcomeScene.style.display = "none";
+
+            requestAnimationFrame(() => {
+                doorsScene.classList.add("open");
+            });
+
+            // Masquer les portes une fois leur ouverture terminée
+            setTimeout(() => {
+                doorsScene.style.display = "none";
+                doorsScene.classList.remove("open");
+            }, 2600);
+
+            return;
+        }
+
+        const loaded = await preloadPhoto(photos[nextIndex]);
+
+        if (!loaded) {
+            console.error("Impossible de charger :", photos[nextIndex]);
+            currentPhoto = nextIndex;
+            nextPhoto();
+            return;
+        }
+
+        const currentImage = currentPhoto % 2 === 0
+            ? welcomeImage
+            : welcomeImageNext;
+
+        const nextImage = currentPhoto % 2 === 0
+            ? welcomeImageNext
+            : welcomeImage;
+
+        nextImage.src = photos[nextIndex];
+        nextImage.style.display = "block";
+        nextImage.style.opacity = "0";
+
+        // Attendre que la nouvelle photo soit prête à apparaître
+        await new Promise(resolve => requestAnimationFrame(() => {
+            requestAnimationFrame(resolve);
+        }));
+
+        // Fondu enchaîné entre les deux photos
+        nextImage.style.opacity = "1";
+        currentImage.style.opacity = "0";
+        currentPhoto = nextIndex;
+
+        setTimeout(() => {
+            currentImage.style.display = "none";
+            currentImage.style.opacity = "0";
+
+            // Conserver le rythme actuel du diaporama
+            setTimeout(nextPhoto, 1000);
+
+        }, 1000);
+    }
+
+    // Laisser la première photo visible avant de lancer le diaporama
+    setTimeout(nextPhoto, 3000);
 }
 
 // --------------------------------
