@@ -2400,41 +2400,48 @@ border:1px solid rgba(200,165,106,.35);
    CITATION DE BIENVENUE
 ===================================================== */
 
-#welcomeQuote {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -40%);
-    width: 85%;
-    max-width: 1000px;
-    text-align: center;
+#welcomeQuoteScene {
+    display: none;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    background: var(--soft-sage);
     opacity: 0;
-    transition: opacity 1.5s ease, transform 1.5s ease;
-    z-index: 2;
+    transition: opacity 1.2s ease;
+    z-index: 1001;
 }
 
-#welcomeQuote.show {
+#welcomeQuoteScene.show {
     opacity: 1;
-    transform: translate(-50%, -50%);
+}
+
+#welcomeQuote {
+    position: relative;
+    width: 85%;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .welcomeQuoteFr {
     font-family: var(--font-heading);
     font-size: 38px;
-    color: #fff;
+    color: var(--forest);
     line-height: 1.4;
     margin-bottom: 18px;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.45);
 }
 
 .welcomeQuoteEs {
     font-family: var(--font-heading);
     font-size: 34px;
     font-style: italic;
-    color: #fff;
+    color: var(--sage);
     line-height: 1.4;
     margin-top: 0;
-    text-shadow: 0 2px 12px rgba(0,0,0,0.45);
 }
 
 
