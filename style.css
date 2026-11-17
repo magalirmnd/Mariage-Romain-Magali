@@ -2271,7 +2271,7 @@ border:1px solid rgba(200,165,106,.35);
     font-weight:400;
     font-style:italic;
     color:var(--sage);
-    line-height:5;
+    line-height:1.5;
     margin:0;
 }
 
@@ -2304,7 +2304,7 @@ border:1px solid rgba(200,165,106,.35);
     font-size:18px;
     font-weight:500;
     color:var(--forest);
-    line-height:5;
+    line-height:1.5;
     margin:0;
 }
 
