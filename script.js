@@ -213,71 +213,88 @@ setTimeout(() => {
                     welcomeScene.classList.add("show");
                 });
 
-                // Révéler la première photo
+                // Retirer le voile blanc après l'arrivée de la première image.
                 setTimeout(() => {
-
                     whiteTransition.classList.remove("active");
-
                     setTimeout(() => {
                         whiteTransition.style.display = "none";
                     }, 1200);
-
                 }, 100);
 
-                // Faire défiler les photos
-                function nextPhoto() {
-
-                    welcomeImage.style.opacity = "0";
-
-                    setTimeout(() => {
-
-                        currentPhoto++;
-
-                        if (currentPhoto >= photos.length) {
-
-                            welcomeScene.style.display = "none";
-
-                            storyScene.style.display = "flex";
-                            initScrollAnimations();
-                            storyScene.classList.add("visible");
-
-                            window.scrollTo(0, 0);
-                            document.body.style.overflow = "auto";
-
-                            return;
-                        }
-
-                        welcomeImage.src = photos[currentPhoto];
-
-                        requestAnimationFrame(() => {
-                            welcomeImage.style.opacity = "1";
-                        });
-
-                        setTimeout(nextPhoto, 3000);
-
-                    }, 1000);
+                // Précharger chaque photo avant de remplacer celle qui est affichée.
+                function preloadPhoto(src) {
+                    return new Promise((resolve) => {
+                        const image = new Image();
+                        image.onload = async () => {
+                            if (image.decode) {
+                                try { await image.decode(); } catch (error) {}
+                            }
+                            resolve(true);
+                        };
+                        image.onerror = () => resolve(false);
+                        image.src = src;
+                    });
                 }
 
-                // Apparition simultanée des deux phrases
-setTimeout(() => {
+                function wait(ms) {
+                    return new Promise(resolve => setTimeout(resolve, ms));
+                }
 
-    const welcomeQuote = document.getElementById("welcomeQuote");
+                // Passer à la photo suivante sans réafficher l'ancienne.
+                async function nextPhoto() {
+                    const nextIndex = currentPhoto + 1;
+                    welcomeImage.style.opacity = "0";
+                    await wait(1000);
 
-    welcomeQuote.classList.add("show");
+                    if (nextIndex >= photos.length) {
+                        welcomeScene.style.display = "none";
+                        storyScene.style.display = "flex";
+                        initScrollAnimations();
+                        storyScene.classList.add("visible");
+                        window.scrollTo(0, 0);
+                        document.body.style.overflow = "auto";
+                        return;
+                    }
 
-    // Les phrases restent visibles 4 secondes
-    setTimeout(() => {
+                    const loaded = await preloadPhoto(photos[nextIndex]);
+                    if (!loaded) {
+                        console.error("Impossible de charger la photo :", photos[nextIndex]);
+                        currentPhoto = nextIndex;
+                        nextPhoto();
+                        return;
+                    }
 
-        welcomeQuote.classList.remove("show");
+                    welcomeImage.src = photos[nextIndex];
+                    currentPhoto = nextIndex;
+                    requestAnimationFrame(() => {
+                        welcomeImage.style.opacity = "1";
+                    });
+                    setTimeout(nextPhoto, 3000);
+                }
 
-        // Attendre la fin du fondu avant le diaporama
-        setTimeout(() => {
-            nextPhoto();
-        }, 1500);
+                // La première image apparaît seule, puis la citation arrive sur son propre fond.
+                setTimeout(() => {
+                    welcomeImage.style.opacity = "0";
+                    setTimeout(() => {
+                        welcomeScene.style.display = "none";
+                        welcomeQuoteScene.style.display = "flex";
+                        requestAnimationFrame(() => {
+                            welcomeQuoteScene.classList.add("show");
+                        });
 
-    }, 4000);
-
-}, 1000);
+                        setTimeout(() => {
+                            welcomeQuoteScene.classList.remove("show");
+                            setTimeout(() => {
+                                welcomeQuoteScene.style.display = "none";
+                                welcomeScene.style.display = "block";
+                                requestAnimationFrame(() => {
+                                    welcomeScene.classList.add("show");
+                                });
+                                nextPhoto();
+                            }, 1200);
+                        }, 4000);
+                    }, 1000);
+                }, 3000);
 
             }, 1200);
 
