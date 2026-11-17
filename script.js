@@ -166,15 +166,22 @@ function startInvitation() {
         running = false;
         fireworksScene.style.display = "none";
 
-        // 2. Afficher la citation, sans fondu
+        // 2. Afficher la citation après l'extinction complète des feux
         welcomeQuoteScene.classList.remove("show", "textVisible");
         welcomeQuoteScene.style.transition = "none";
         welcomeQuoteScene.style.opacity = "1";
         welcomeQuoteScene.style.display = "flex";
 
+        // Seule la phrase apparaît progressivement en fondu
         const quote = document.getElementById("welcomeQuote");
-        quote.style.transition = "none";
-        quote.style.opacity = "1";
+        quote.style.transition = "opacity 1s ease";
+        quote.style.opacity = "0";
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+                quote.style.opacity = "1";
+            });
+        });
 
         // Garder la citation visible 4 secondes
         setTimeout(() => {
