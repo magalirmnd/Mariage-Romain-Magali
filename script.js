@@ -363,9 +363,47 @@ function animate() {
         });
 
         setTimeout(() => {
-            welcomeQuoteScene.style.display = "none";
-            welcomeQuoteScene.classList.remove("textVisible");
-            lancerDiaporama();
+            // Précharger la première photo avant de lancer le fondu.
+            const premierePhoto = "assets/images/photo5.jpg";
+            const imagePrechargee = new Image();
+
+            const lancerFonduVersPhoto = () => {
+                const welcomeImage = document.getElementById("welcomeImage");
+
+                welcomeImage.src = premierePhoto;
+                welcomeImage.style.transition = "none";
+                welcomeImage.style.opacity = "1";
+
+                // La photo apparaît derrière la phrase, puis la phrase s'efface.
+                welcomeScene.style.display = "block";
+                welcomeScene.style.transition = "opacity 1.2s ease";
+                welcomeScene.style.opacity = "0";
+                welcomeQuoteScene.style.transition = "opacity 1.2s ease";
+                welcomeQuoteScene.style.opacity = "1";
+
+                requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
+                        welcomeScene.style.opacity = "1";
+                        welcomeQuoteScene.style.opacity = "0";
+                    });
+                });
+
+                setTimeout(() => {
+                    welcomeQuoteScene.style.display = "none";
+                    welcomeQuoteScene.classList.remove("textVisible");
+                    welcomeQuoteScene.style.removeProperty("opacity");
+                    welcomeQuoteScene.style.removeProperty("transition");
+                    lancerDiaporama();
+                }, 1200);
+            };
+
+            imagePrechargee.onload = lancerFonduVersPhoto;
+            imagePrechargee.onerror = () => {
+                welcomeQuoteScene.style.display = "none";
+                welcomeQuoteScene.classList.remove("textVisible");
+                lancerDiaporama();
+            };
+            imagePrechargee.src = premierePhoto;
         }, 4000);
 
         return;
