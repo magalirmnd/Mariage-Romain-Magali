@@ -19,8 +19,6 @@ const doorsScene = document.getElementById("doorsScene");
 const whiteTransition = document.getElementById("whiteTransition");
 const welcomeScene = document.getElementById("welcomeScene");
 const storyScene = document.getElementById("storyScene");
-const slideshowScene = document.getElementById("slideshowScene");
-const slideshowImage = document.getElementById("slideshowImage");
 
 // =====================================================
 // Apparition des sections au défilement
@@ -108,10 +106,6 @@ ids.forEach((id,index)=>{
     element.classList.add("number-update");
 
 });
-    document.getElementById("hours").textContent = hours;
-    document.getElementById("minutes").textContent = minutes;
-    document.getElementById("seconds").textContent = seconds;
-
 }
 
 updateCountdown();
@@ -358,6 +352,12 @@ function explosion(x, y) {
 // --------------------------------
 
 function animate() {
+
+    // Arrête la boucle d'animation lorsque les feux d'artifice sont terminés.
+    if (!running) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        return;
+    }
 
 ctx.fillStyle = "rgba(248,247,242,0.18)";
 ctx.fillRect(0,0,canvas.width,canvas.height);
