@@ -16,7 +16,6 @@ const fireworksScene = document.getElementById("fireworksScene");
 const canvas = document.getElementById("fireworksCanvas");
 const ctx = canvas.getContext("2d");
 const doorsScene = document.getElementById("doorsScene");
-const whiteTransition = document.getElementById("whiteTransition");
 const welcomeScene = document.getElementById("welcomeScene");
 const welcomeQuoteScene = document.getElementById("welcomeQuoteScene");
 const storyScene = document.getElementById("storyScene");
@@ -182,6 +181,7 @@ function lancerDiaporama() {
     const photoFinale = "assets/images/accueil-apres-portes.png";
     const welcomeImage = document.getElementById("welcomeImage");
     const welcomeImageNext = document.getElementById("welcomeImageNext");
+    const photoWhiteTransition = document.getElementById("photoWhiteTransition");
 
     function attendre(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
@@ -200,10 +200,41 @@ function lancerDiaporama() {
     }
 
     async function afficherPhoto(src) {
-        const chargee = await chargerImage(src);
-        if (!chargee) return false;
+    const chargee = await chargerImage(src);
+    if (!chargee) return false;
 
-        // Affichage direct, sans fondu ni transition
+    // Transition uniquement entre la première et la deuxième photo
+    if (src === photos[1] || src === photos[2] || src === photos[3]) {
+
+        welcomeImageNext.src = src;
+        welcomeImageNext.style.display = "block";
+        welcomeImageNext.style.transition = "none";
+        welcomeImageNext.style.opacity = "0";
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+
+                welcomeImage.style.transition = "opacity 1.2s ease";
+                welcomeImageNext.style.transition = "opacity 1.2s ease";
+
+                welcomeImage.style.opacity = "0";
+                welcomeImageNext.style.opacity = "1";
+
+            });
+        });
+
+        await attendre(1200);
+
+        welcomeImage.src = src;
+        welcomeImage.style.transition = "none";
+        welcomeImage.style.opacity = "1";
+
+        welcomeImageNext.style.display = "none";
+        welcomeImageNext.style.opacity = "0";
+        welcomeImageNext.style.transition = "none";
+
+    } else {
+
         welcomeImage.src = src;
         welcomeImage.style.transition = "none";
         welcomeImage.style.opacity = "1";
@@ -212,13 +243,14 @@ function lancerDiaporama() {
         welcomeImageNext.style.display = "none";
         welcomeImageNext.style.opacity = "0";
         welcomeImageNext.style.transition = "none";
-
-        welcomeScene.style.transition = "none";
-        welcomeScene.style.opacity = "1";
-        welcomeScene.style.display = "block";
-
-        return true;
     }
+
+    welcomeScene.style.transition = "none";
+    welcomeScene.style.opacity = "1";
+    welcomeScene.style.display = "block";
+
+    return true;
+}
 
     async function lancerSequence() {
 
@@ -226,18 +258,98 @@ function lancerDiaporama() {
         for (const photo of photos) {
             const chargee = await afficherPhoto(photo);
             if (!chargee) continue;
-            await attendre(3000);
+            await attendre(2000);
         }
 
-        // 4. Afficher la photo finale de Magali et Romain
-        const finaleChargee = await afficherPhoto(photoFinale);
-        if (!finaleChargee) return;
+        // 4. Transition blanche vers la photo finale
+await attendre(500);
 
-        // Laisser la photo finale seule à l'écran
-        await attendre(3500);
+photoWhiteTransition.style.transition = "opacity 2s ease";
+photoWhiteTransition.style.opacity = "1";
 
-        // Préparer le site derrière les portes
-        storyScene.style.display = "flex";
+await attendre(2000);
+
+// Charger la photo finale sous le voile blanc
+const finaleChargee = await chargerImage(photoFinale);
+if (!finaleChargee) return;
+
+welcomeImage.src = photoFinale;
+welcomeImage.style.opacity = "1";
+welcomeImage.style.transition = "none";
+
+welcomeImageNext.style.display = "none";
+welcomeImageNext.style.opacity = "0";
+
+// Faire disparaître le voile blanc
+photoWhiteTransition.style.transition = "opacity 1s ease";
+photoWhiteTransition.style.opacity = "0";
+
+await attendre(2000);
+
+// Laisser la photo finale seule à l'écran
+await attendre(3500);
+
+// =====================================================
+// CURSEUR QUI VIENT FERMER LA PHOTO
+// =====================================================
+
+const fakeCursor = document.getElementById("fakeCursor");
+const closePhoto = document.getElementById("closePhoto");
+
+// Position initiale au centre
+fakeCursor.style.left = "50%";
+fakeCursor.style.top = "50%";
+fakeCursor.style.opacity = "1";
+
+await attendre(500);
+
+// Déplacement vers la croix
+fakeCursor.style.left = "calc(100% - 49px)";
+fakeCursor.style.top = "42px";
+
+await attendre(1500);
+
+// Apparition de la croix au survol
+closePhoto.classList.add("hovered");
+
+await attendre(400);
+
+// Préparer l'action de fermeture
+const fermeturePhoto = new Promise(resolve => {
+
+    closePhoto.addEventListener("click", async () => {
+
+        closePhoto.classList.add("clicked");
+
+        // Apparition des portes derrière la photo
+        doorsScene.classList.remove("open");
+        doorsScene.style.display = "block";
+
+        // Fermeture progressive de la photo
+        welcomeScene.style.transition = "opacity .9s ease";
+        welcomeScene.style.opacity = "0";
+
+        await attendre(900);
+
+        welcomeScene.style.display = "none";
+        fakeCursor.style.opacity = "0";
+
+        closePhoto.classList.remove("hovered", "clicked");
+
+        resolve();
+
+    }, { once: true });
+
+});
+
+// Le curseur clique réellement sur la croix
+await attendre(250);
+closePhoto.click();
+
+// Attendre la fin de la fermeture
+await fermeturePhoto;
+
+// Préparer le site derrière les portes
         initScrollAnimations();
         storyScene.classList.add("visible");
         window.scrollTo(0, 0);
@@ -253,21 +365,26 @@ function lancerDiaporama() {
         // Masquer la photo derrière les portes fermées
         welcomeScene.style.display = "none";
 
-        // 6. Ouvrir les portes sans animation pour le moment
-        doorsScene.querySelectorAll(".door").forEach(door => {
-            door.style.transition = "none";
-        });
+        
+ 
+ // 6. Ouverture des portes avec apparition progressive du site
 
-        doorsScene.classList.add("open");
+doorsScene.classList.add("open");
 
-        // Retirer les portes : le site est maintenant visible
-        await attendre(50);
-        doorsScene.style.display = "none";
-        doorsScene.classList.remove("open");
-        document.body.style.overflow = "auto";
+// Le site est déjà affiché derrière les portes.
+// On attend simplement la fin de l'ouverture.
+await attendre(2500);
+
+// Retirer les portes
+doorsScene.style.display = "none";
+doorsScene.classList.remove("open");
+
+document.body.style.overflow = "auto";
+
     }
 
     lancerSequence();
+
 }
 
 // --------------------------------
@@ -363,48 +480,44 @@ function animate() {
         });
 
         setTimeout(() => {
-            // Précharger la première photo avant de lancer le fondu.
-            const premierePhoto = "assets/images/photo5.jpg";
-            const imagePrechargee = new Image();
 
-            const lancerFonduVersPhoto = () => {
-                const welcomeImage = document.getElementById("welcomeImage");
+    const premierePhoto = "assets/images/photo5.jpg";
 
-                welcomeImage.src = premierePhoto;
-                welcomeImage.style.transition = "none";
-                welcomeImage.style.opacity = "1";
+    const image = document.getElementById("welcomeImage");
+    const imagePrechargee = new Image();
 
-                // La photo apparaît derrière la phrase, puis la phrase s'efface.
-                welcomeScene.style.display = "block";
-                welcomeScene.style.transition = "opacity 1.2s ease";
-                welcomeScene.style.opacity = "0";
-                welcomeQuoteScene.style.transition = "opacity 1.2s ease";
-                welcomeQuoteScene.style.opacity = "1";
+    imagePrechargee.onload = () => {
 
-                requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                        welcomeScene.style.opacity = "1";
-                        welcomeQuoteScene.style.opacity = "0";
-                    });
-                });
+        image.src = premierePhoto;
 
-                setTimeout(() => {
-                    welcomeQuoteScene.style.display = "none";
-                    welcomeQuoteScene.classList.remove("textVisible");
-                    welcomeQuoteScene.style.removeProperty("opacity");
-                    welcomeQuoteScene.style.removeProperty("transition");
-                    lancerDiaporama();
-                }, 1200);
-            };
+        welcomeScene.style.display = "block";
+        welcomeScene.style.opacity = "0";
+        welcomeScene.style.transition = "opacity 1.2s ease";
 
-            imagePrechargee.onload = lancerFonduVersPhoto;
-            imagePrechargee.onerror = () => {
-                welcomeQuoteScene.style.display = "none";
-                welcomeQuoteScene.classList.remove("textVisible");
-                lancerDiaporama();
-            };
-            imagePrechargee.src = premierePhoto;
-        }, 4000);
+        welcomeQuoteScene.style.transition = "opacity 1.2s ease";
+
+        requestAnimationFrame(() => {
+            requestAnimationFrame(() => {
+
+                welcomeScene.style.opacity = "1";
+                welcomeQuoteScene.style.opacity = "0";
+
+            });
+        });
+
+        setTimeout(() => {
+
+            welcomeQuoteScene.style.display = "none";
+            welcomeQuoteScene.classList.remove("textVisible");
+
+            lancerDiaporama();
+
+        }, 1200);
+    };
+
+    imagePrechargee.src = premierePhoto;
+
+}, 4000);
 
         return;
     }
