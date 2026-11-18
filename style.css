@@ -1548,8 +1548,9 @@ border:1px solid rgba(200,165,106,.35);
 
     border:1px solid rgba(200,165,106,.18);
 
-    box-shadow:12px 16px 14px rgba(35,45,42,.30),
-               4px 7px 7px rgba(35,45,42,.18);
+    /* Ombre noire visible uniquement en haut et à droite */
+    box-shadow:8px -8px 12px rgba(0,0,0,.70),
+               3px -3px 5px rgba(0,0,0,.45);
 
     transition:
         transform .35s ease,
@@ -1561,8 +1562,9 @@ border:1px solid rgba(200,165,106,.35);
 
     transform:translateY(-8px);
 
-    box-shadow:14px 20px 18px rgba(35,45,42,.34),
-               5px 9px 9px rgba(35,45,42,.20);
+    /* Même direction, avec un relief renforcé au survol */
+    box-shadow:10px -10px 15px rgba(0,0,0,.78),
+               4px -4px 7px rgba(0,0,0,.52);
 
 }
 
