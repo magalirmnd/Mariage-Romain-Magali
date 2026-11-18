@@ -1548,8 +1548,8 @@ border:1px solid rgba(200,165,106,.35);
 
     border:1px solid rgba(200,165,106,.18);
 
-    box-shadow:0 0 18px rgba(0,0,0,.16),
-               0 12px 28px rgba(0,0,0,.12);
+    box-shadow:8px 12px 18px rgba(38,58,49,.22),
+               2px 4px 8px rgba(38,58,49,.10);
 
     transition:
         transform .35s ease,
@@ -1561,8 +1561,8 @@ border:1px solid rgba(200,165,106,.35);
 
     transform:translateY(-8px);
 
-    box-shadow:0 0 22px rgba(0,0,0,.19),
-               0 22px 38px rgba(0,0,0,.14);
+    box-shadow:10px 16px 22px rgba(38,58,49,.25),
+               3px 6px 10px rgba(38,58,49,.12);
 
 }
 
