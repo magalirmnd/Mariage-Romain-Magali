@@ -287,7 +287,7 @@ photoWhiteTransition.style.opacity = "0";
 await attendre(2000);
 
 // Laisser la photo finale seule à l'écran
-await attendre(3500);
+await attendre(1500);
 
 // =====================================================
 // CURSEUR QUI VIENT FERMER LA PHOTO
